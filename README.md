@@ -16,3 +16,7 @@ Enter your preferences, ie SSID, user name and password etc.
 Also enable ssh.  
 
 Boot up the RPi, and connect via ssh.  
+
+### Prerequisites
+
+>$ sudo apt install git  
