@@ -8,13 +8,14 @@ from datetime import date, timedelta
 
 #from urllib import request
 
-from readConfig import var, build_api_url
-
-print(var)
+from readConfig import build_api_url
 
 today = date.today()
 
-for when in today, today + timedelta(days=1):
+for x in range(2):
+    when = today + timedelta(days = x)
+    print(x)
+    
     year = str(when.year)
     if when.month < 10:
         month = "0" + str(when.month)
@@ -36,15 +37,22 @@ for when in today, today + timedelta(days=1):
     response_API = requests.get(url)
     data = response_API.text
     
-    print(response_API.status_code)
+    response_code = response_API.status_code
+    print(response_code)
     
-    data = response_API.text
-    parse_json = json.loads(data)
-    
-    info = parse_json[0]['time_start']
-    print(info)
+    if response_code == 200:
+        data = response_API.text
+        parse_json = json.loads(data)
+        
+        for y in range(24):
+            hour = parse_json[y]['time_start']
+            price_SEK = parse_json[y]['SEK_per_kWh']
+            #print("Hour: " + hour + ", Price: " + price_SEK + "kr/kWh")
+            print(f'Hour: {hour:27} ==> {price_SEK:10f} kr/kWh')
+    else:
+        print("No data yet")
     
     #json_formatted_str = json.dumps(parse_json, indent=2)
     #print(json_formatted_str)
     
-    print
+    print()
