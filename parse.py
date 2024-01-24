@@ -6,9 +6,11 @@ import json, requests
 
 from datetime import date, timedelta
 
-#from urllib import request
 
-from readConfig import build_api_url
+from readConfig import (build_api_url, 
+                        spot_surcharge, certificate_fee, trading_fee, 
+                        transfer, tax, 
+                        VAT)
 
 today = date.today()
 
@@ -47,8 +49,16 @@ for x in range(2):
         for y in range(24):
             hour = parse_json[y]['time_start']
             price_SEK = parse_json[y]['SEK_per_kWh']
-            #print("Hour: " + hour + ", Price: " + price_SEK + "kr/kWh")
-            print(f'Hour: {hour:27} ==> {price_SEK:10f} kr/kWh')
+            additional_fees = (spot_surcharge + certificate_fee + trading_fee)
+
+            subtotal = (price_SEK + additional_fees) * (1 + VAT)
+            
+            taxes = (price_SEK + additional_fees + transfer + tax) * VAT
+            
+            total = (price_SEK + additional_fees + transfer + tax) * (1 + VAT)
+            
+            #print(taxes)
+            print(f'Hour: {hour:25}, Spot price: {price_SEK:8f}, Our Price: {subtotal:8f}, Taxes: {taxes:8f}, Total: {total:8f},')
     else:
         print("No data yet")
     
