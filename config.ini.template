@@ -1,5 +1,9 @@
-[header]
-var = example
+[db]
+host=localhost
+user=<user name>
+password=<password>
+database=rasPower_db
+port=3306
 
 [elpris]
 scheme = https
