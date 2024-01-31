@@ -43,12 +43,12 @@ def run_sql(cur, sql):
     except pymysql.Error as e:
         print("Error %d: %s" %(e.args[0], e.args[1]))
         sys.exit(1)
-    else:
-        print("OK\nAffected rows = {}".format(cur.rowcount))
+    #else:
+    #    print("OK\nAffected rows = {}".format(cur.rowcount))
         
-    output =(cur.fetchall())
+    result =(cur.fetchall())
     
-    return output
+    return result
     
 def mysqlclose(conn):
     conn.commit()
@@ -57,11 +57,11 @@ def mysqlclose(conn):
 def do_sql(sql):
     conn, cur = mysqlconnect(db_host, db_user, db_password, db_name, db_port)
     
-    output = run_sql(cur, sql)
+    result = run_sql(cur, sql)
     
     mysqlclose(conn)
     
-    return output
+    return result
     
 if __name__ == "__main__" : 
     conn, cur = mysqlconnect(db_host, db_user, db_password, db_name, db_port)

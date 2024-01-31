@@ -1,9 +1,9 @@
 [db]
-host=localhost
-user=<user name>
-password=<password>
-database=rasPower_db
-port=3306
+db_host=localhost
+db_user=elpriset
+db_password=justnu
+db_name=<user>
+db_port=<pass>
 
 [elpris]
 scheme = https

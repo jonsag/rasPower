@@ -6,9 +6,9 @@ import sys
 
 from getpass import getpass
 
-from sql import mysqlconnect_install, run_sql, mysqlclose
+from bin.sql import mysqlconnect_install, run_sql, mysqlclose
 
-from readConfig import db_host, db_name, db_user, db_password
+from bin.readConfig import db_host, db_name, db_user, db_password
        
 def setup_db():
     while True:
