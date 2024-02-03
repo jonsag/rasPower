@@ -1,0 +1,72 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+# Encoding: UTF-8
+
+print('Content-Type: text/html')
+print()
+print('<html>')
+
+print('<style>')
+print('table, th, td {')
+print('  border:1px solid black;')
+print('}')
+print('</style>')
+
+print('<head>')
+
+print('</head>')
+
+print('<body>')
+print('<h2>Text input fields</h2>') 
+
+print('<form action="/action_page.php">')
+
+print('<table style="width:100%">')
+print('  <tr>')
+print('    <td>')
+print('      <label for="spot_sur">Spot surcharge:</label><br>')
+print('      <input type="text" id="spot_sur" name="spot_sur" value="John">')
+print('    </td>')
+print('    <td>')
+print('      <label for="cert_fee">Certificate fee:</label><br>')
+print('      <input type="text" id="cert_fee" name="cert_fee" value="Doe">')
+print('    </td>')
+print('    <td>')
+print('      <label for="trad_fee">Trading fee:</label><br>')
+print('      <input type="text" id="trad_fee" name="trad_fee" value="Doe">')
+print('    </td>')
+print('    <td>')
+print('      <label for="trans">Transport:</label><br>')
+print('      <input type="text" id="trans" name="trans" value="Doe">')
+print('    </td>')
+print('    <td>')
+print('      <label for="tax">Tax:</label><br>')
+print('      <input type="text" id="tax" name="tax" value="Doe">')
+print('    </td>')
+print('    <td>')
+print('      <label for="VAT">VAT:</label><br>')
+print('      <input type="text" id="VAT" name="VAT" value="Doe">')
+print('    </td>')
+print('  </tr>')
+
+print('  <tr>')
+print('    <td>')
+print('      <input type="radio" id="spot_sur_incl" name="spot_sur_VAT" value="1">')
+print('      <label for="spot_sur_incl">VAT included</label><br>')
+print('      <input type="radio" id="spot_sur_excl" name="spot_sur_VAT" value="0">')
+print('      <label for="spot_sur_excl">VAT excluded</label>')
+print('    </td>')
+print('    <td>')
+print('      <input type="radio" id="cert_fee_incl" name="cert_fee_VAT" value="1">')
+print('      <label for="cert_fee_incl">VAT included</label><br>')
+print('      <input type="radio" id="cert_fee_excl" name="cert_fee_VAT" value="0">')
+print('      <label for="cert_fee_excl">VAT excluded</label>')
+print('    </td>')
+print('  </tr>')
+print('</table>')
+
+print('  <input type="submit" value="Submit">')
+print('</form>')
+
+print('</body>')
+print('</html>')
