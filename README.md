@@ -15,17 +15,30 @@ Run Imager and choose the img file.
 Enter your preferences, ie SSID, user name and password etc.
 Also enable ssh.
 
-Boot up the RPi, and connect via ssh.
+#### raspi-config
+
+Boot up the RPi, and connect via ssh.  
+
+>$ sudo raspi-config  
+
+Make your miscellaneous settings, eg. localization, keyboard etc.  
+Expand disk  
+Enable SPI  
+
+#### Update
+
+>$ sudo apt update && sudo apt upgrade  
 
 ### Prerequisites
 
 #### Install Packages
 
->$ sudo apt install apache2 git mariadb-server python3-pip
+>$ sudo apt install apache2 git mariadb-server  
+>$ sudo apt install libfreetype6-dev libjpeg-dev build-essential libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev libportmidi-dev
 
 #### Install Python modules
 
->$ sudo apt install python3-pymysql python3-getpass
+>$ sudo apt install python3-dev python3-pip python3-numpy python3-pymysql python3-rpi.gpio python3-spidev python3-willow python3-luma.lcd  
 
 OR if you want to use pip
 
@@ -57,7 +70,32 @@ Select 'Y'
 Select 'Y'
 
     Reload privilege tables now? [Y/n]
-Select 'Y'
+Select 'Y'$ sudo apt install python3-dev python3-pip python3-numpy libfreetype6-dev libjpeg-dev build-essential
+$ sudo apt install libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev libportmidi-dev
+
+### Software
+
+>$ git clone https://github.com/jonsag/rasPower.git  
+>$ cd rasPower  
+>$ python setup_db.py
+>$ sudo ./install.py  
+
+### Hardware
+
+#### ST7735 OLED Screen
+
+| Screen | Pin | GPIO   |
+|--------|-----|--------|
+| GND    | 6   | Ground |
+| VCC    | 2   | +5V    |
+| SCL    | 23  | 11     |
+| SDA    | 19  | 10     |
+| RES    | 18  | 24     |
+| DC     | 16  | 23     |
+| CS     | 24  | 8      |
+| BL     | 12  | 18     |
+
+>$  sudo usermod -a -G i2c,spi,gpio www-data  
 
 ## Misc
 
@@ -65,7 +103,7 @@ Select 'Y'
 
 #### General Query Log
 
->$ sudo mkdir /var/log/mariadb
+>$ sudo mkdir /var/log/mariadbsudo -H pip install -e .
 >$ sudo touch /var/log/mariadb/general-query.log
 >$ sudo chown mysql:mysql -R /var/log/mariadb
 >MariaDB []> SET GLOBAL general_log_file /var/log/mysql/general-query.log;
