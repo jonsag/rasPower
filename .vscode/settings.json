@@ -9,8 +9,14 @@
         "handelsavgifter",
         "Imager",
         "justnu",
+        "lerp",
+        "maxx",
+        "maxy",
         "mysqlclose",
+        "posn",
         "Q'uit",
-        "spotpåslag"
+        "rtype",
+        "spotpåslag",
+        "textbbox"
     ]
 }

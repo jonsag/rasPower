@@ -7,10 +7,10 @@ from sql import do_sql
 sql = ("SELECT * FROM surcharges ORDER BY time DESC LIMIT 1;")
 answer = do_sql(sql)
 for line in answer:
-#    print(f'{line[0]}, {line[1]}, {line[2]}, {line[3]}, {line[4]}, {line[5]}, {line[6]}')
+    #    print(f'{line[0]}, {line[1]}, {line[2]}, {line[3]}, {line[4]}, {line[5]}, {line[6]}')
     surcharges = line[1] + line[2] + line[3] + line[4] + line[5]
     VAT = line[6]
-    
+
 print("Content-Type: text/html")
 print()
 print("<html>")
@@ -35,7 +35,7 @@ print("]);")
 print()
 print("var options = {")
 print("title: 'Electricity price/hour',")
-#print("curveType: 'function',")
+# print("curveType: 'function',")
 print("legend: { position: 'bottom' }")
 print("};")
 print()

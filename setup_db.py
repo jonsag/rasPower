@@ -6,9 +6,9 @@ import sys
 
 from getpass import getpass
 
-from bin.sql import mysqlconnect_install, run_sql, mysqlclose
+from www.sql import mysqlconnect_install, run_sql, mysqlclose
 
-from bin.readConfig import db_host, db_name, db_user, db_password
+from www.readConfig import db_host, db_name, db_user, db_password
        
 def setup_db():
     while True:
@@ -16,6 +16,8 @@ def setup_db():
         
         if root_password.lower() == 'q':
             sys.exit(0)
+        elif root_password.lower() == 's':
+            return
             
         try:
             conn, cur = mysqlconnect_install(root_password)

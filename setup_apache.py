@@ -10,6 +10,7 @@ def is_tool(name):
 
     return which(name) is not None
 
+
 def apache2_setup():
     import sys
 
@@ -19,7 +20,7 @@ def apache2_setup():
         sys.exit(0)
     else:
         import re
-        
+
         print("Checking for listening directive...")
         pattern8080 = re.compile("Listen 8080($|\ )")
         pattern80 = re.compile("Listen 80($|\ )")
@@ -28,8 +29,9 @@ def apache2_setup():
                 if pattern8080.match(line):
                     print("Already listening to port 8080")
                     break
-            else: # not found, we are at the eof
-                print("Adding directive...")#file.write(needle) # append missing data
+            else:  # not found, we are at the eof
+                # file.write(needle) # append missing data
+                print("Adding directive...")
                 with open("/etc/apache2/ports.conf", "r") as in_file:
                     buf = in_file.readlines()
 
@@ -38,22 +40,21 @@ def apache2_setup():
                         if pattern80.match(line):
                             line = line + "Listen 8080\n"
                         out_file.write(line)
-    
+
         import subprocess
-        
+
         print("Enabling site...")
         subprocess.run(["a2ensite", "rasPower.conf"])
-        
+
         print("Disabling mpm_event...")
         subprocess.run(["a2dismod", "mpm_event"])
-    
+
         print("Enabling mpm_prefork and cgi...")
         subprocess.run(["a2enmod", "mpm_prefork", "cgi"])
-        
 
-                    
         print("Restarting apache2...")
         subprocess.run(["systemctl", "restart", "apache2"])
-                           
-if __name__ == "__main__" : 
+
+
+if __name__ == "__main__":
     apache2_setup()

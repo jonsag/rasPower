@@ -17,7 +17,7 @@ print('<head>')
 print('</head>')
 
 print('<body>')
-print('<h2>Text input fields</h2>') 
+print('<h2>Text input fields</h2>')
 
 print('<form action="/action_page.php">')
 
