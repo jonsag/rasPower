@@ -5,21 +5,7 @@
 import pymysql
 import sys
 
-from .readConfig import db_host, db_user, db_password, db_name, db_port
-
-
-def mysqlconnect_install(root_password):
-    # To connect MySQL database
-    try:
-        conn = pymysql.connect(host=db_host,
-                               user='root',
-                               password=root_password)
-    except pymysql.Error as e:
-        print("Could not connect %d: %s" % (e.args[0], e.args[1]))
-    else:
-        cur = conn.cursor()
-
-    return conn, cur
+from readConfig import db_host, db_user, db_password, db_name, db_port
 
 
 def mysqlconnect(db_host, db_user, db_password, db_name, db_port):
