@@ -37,7 +37,7 @@ def scale_y(y):
 
 
 def scale_x(x):
-    return interp(x, [0, graph_x_resolution - 1], [graph_offset, graph_offset + graph_width])
+    return interp(x, [0, graph_x_resolution - 1], [graph_offset + 1, graph_offset + graph_width - 2])
 
 
 with canvas(device) as draw:
@@ -46,43 +46,59 @@ with canvas(device) as draw:
     draw.rectangle((graph_offset, graph_offset, graph_width,
                    graph_height), outline="white", fill="black")
 
-    sql = (f'SELECT SEK_per_kWh FROM price WHERE hour > NOW() - INTERVAL {hours_back} HOUR AND hour < NOW() + INTERVAL {hours_future + 1} HOUR')
+    sql = (
+        f'SELECT SEK_per_kWh FROM price WHERE hour > NOW() - INTERVAL {hours_back} HOUR AND hour < NOW() + INTERVAL {hours_future + 1} HOUR')
     print(sql)
-    
+
     answer = do_sql(sql)
 
     i = 0
 
     for line in answer:
-        # print(line[0])
-
         if i == 0:
-            draw.point((scale_x(i),
-                        scale_y(float(line[0]))),
-                       fill="red")
+            draw.line((scale_x(i),
+                       scale_y(float(line[0])),
+                       scale_x(i + 1),
+                       scale_y(float(line[0]))),
+                      fill="red")
 
-            print(i, ":",
+            print("- ",
                   round(scale_x(i)), ", ",
+                  round(scale_y(float(line[0]))), "-->",
+                  round(scale_x(i + 1)), ", ",
                   round(scale_y(float(line[0]))))
 
         else:
-            draw.line((scale_x(i - 1),
-                       scale_y(old_line),
+            draw.line((scale_x(i),
+                       scale_y(float(old_line)),
                        scale_x(i),
                        scale_y(float(line[0]))),
                       fill="red")
 
-            print(i, ": ",
-                  round(scale_x(i - 1)), ", ",
-                  round(scale_y(old_line)), "\t-->\t",
+            print("| ",
+                  round(scale_x(i)), ", ",
+                  round(scale_y(float(old_line))), "-->",
                   round(scale_x(i)), ", ",
                   round(scale_y(float(line[0]))))
+
+            draw.line((scale_x(i),
+                       scale_y(float(line[0])),
+                       scale_x(i + 1),
+                       scale_y(float(line[0]))),
+                      fill="red")
+
+            print("- ",
+                  round(scale_x(i)), ", ",
+                  round(scale_y(float(line[0]))), "-->",
+                  round(scale_x(i + 1)), ", ",
+                  round(scale_y(float(line[0]))))
+            
 
         old_line = line[0]
 
         i = i + 1
 
-        # if i == 3:
+        #if i == 2:
         #    break
 
 time.sleep(60)
