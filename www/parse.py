@@ -5,8 +5,10 @@
 import json
 import requests
 import sys
+import getopt
+import os
 
-from datetime import date, timedelta
+from datetime import date, timedelta, datetime
 
 
 from readConfig import (build_api_url,
@@ -18,10 +20,11 @@ from readConfig import (build_api_url,
 from sql import do_sql
 
 
-def parse_elprisetjustnu():
-    today = date.today()
+def parse_elprisetjustnu(today, days):
 
-    for x in range(2):
+    print(f'Parsing prices for {today} - {today + timedelta(days = days - 1)}')
+
+    for x in range(days):
         when = today + timedelta(days=x)
         print(x)
 
@@ -85,5 +88,35 @@ def parse_elprisetjustnu():
         print()
 
 
+def arguments(argv):
+    day = date.today()
+    number = 2
+
+    try:
+        opts, args = getopt.getopt(argv,
+                                   "hd:n:",
+                                   ["help", "day=", "number="])
+    except getopt.GetoptError:
+        print('Error\ntest.py -d <date> -n <number of days>')
+        sys.exit(2)
+
+    for opt, arg in opts:
+        if opt == '-h':
+            print(f'{os.path.basename(sys.argv[0])} -d <date> -n <number of days>')
+            sys.exit()
+        elif opt in ("-d", "--day"):
+            try:
+                day = datetime.strptime(arg, '%Y-%m-%d').date()
+            except:
+                print("Error\nEnter date in the format YYYY-MM-DD")
+                sys.exit(3)
+        elif opt in ("-n", "--number"):
+            number = arg
+
+    return day, number
+
+
 if __name__ == "__main__":
-    parse_elprisetjustnu()
+    day, number = arguments(sys.argv[1:])
+    
+    parse_elprisetjustnu(day, int(number))
