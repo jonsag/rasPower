@@ -47,7 +47,8 @@ def mysqlclose(conn):
 
 def mariadb_setup():
     while True:
-        root_password = getpass("MySQL root password? (Exit with 'q', skip with 's') ")
+        root_password = getpass(
+            "MySQL root password? (Exit with 'q', skip with 's') ")
 
         if root_password.lower() == 'q':
             sys.exit(0)
@@ -72,6 +73,10 @@ def mariadb_setup():
     print(f'\nCreating tables...')
     sql = ("CREATE TABLE IF NOT EXISTS " +
            db_name + ".price(hour DATETIME PRIMARY KEY, SEK_per_kWh REAL)")
+    run_sql(cur, sql)
+
+    sql = ("CREATE TABLE IF NOT EXISTS " +
+           db_name + ".temperature(hour DATETIME PRIMARY KEY, temp REAL)")
     run_sql(cur, sql)
 
     print(f'\nCreating user...')

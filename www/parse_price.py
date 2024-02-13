@@ -11,7 +11,7 @@ import os
 from datetime import date, timedelta, datetime
 
 
-from readConfig import (build_api_url,
+from readConfig import (build_elpris_url,
                         db_name,
                         spot_surcharge, certificate_fee, trading_fee,
                         transfer, tax,
@@ -20,12 +20,12 @@ from readConfig import (build_api_url,
 from sql import do_sql
 
 
-def parse_elprisetjustnu(today, days):
+def parse_elprisetjustnu(start_day, no_days):
 
-    print(f'Parsing prices for {today} - {today + timedelta(days = days - 1)}')
+    print(f'Parsing prices for {start_day} - {start_day + timedelta(days = no_days - 1)}')
 
-    for x in range(days):
-        when = today + timedelta(days=x)
+    for x in range(no_days):
+        when = start_day + timedelta(days = x)
         print(x)
 
         year = str(when.year)
@@ -39,14 +39,14 @@ def parse_elprisetjustnu(today, days):
             day = str(when.day)
 
         print(when)
-        url = build_api_url(year, month, day)
-        print(url)
+        elpris_url = build_elpris_url(year, month, day)
+        print(elpris_url)
 
-    #    with request.urlopen(url) as url:
-    #        data = json.load(url)
+    #    with request.urlopen(elpris_url) as elpris_url:
+    #        data = json.load(elpris_url)
     #        print(data)
 
-        response_API = requests.get(url)
+        response_API = requests.get(elpris_url)
         data = response_API.text
 
         response_code = response_API.status_code
@@ -54,6 +54,7 @@ def parse_elprisetjustnu(today, days):
 
         if response_code == 200:
             data = response_API.text
+            print(data)
             parse_json = json.loads(data)
 
             for y in range(24):
@@ -71,14 +72,13 @@ def parse_elprisetjustnu(today, days):
                          transfer + tax) * (1 + VAT)
 
                 # print(taxes)
-                print(
-                    f'Hour: {hour:25}, Spot price: {price_SEK:8f}, Our Price: {subtotal:8f}, Taxes: {taxes:8f}, Total: {total:8f},')
+                #print(f'Hour: {hour:25}, Spot price: {price_SEK:8f}, Our Price: {subtotal:8f}, Taxes: {taxes:8f}, Total: {total:8f},')
 
                 sql = (
                     f"INSERT INTO {db_name}.price(hour, SEK_per_kWh) VALUES ('{hour[:10]} {hour[11:13]}', {price_SEK:f}) ON DUPLICATE KEY UPDATE SEK_per_kWh = {price_SEK}")
-                print(sql)
+                #print(sql)
                 output = do_sql(sql)
-                print(output)
+                #print(output)
         else:
             print("No data yet")
 

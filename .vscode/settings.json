@@ -17,6 +17,8 @@
         "Q'uit",
         "rtype",
         "spotpåslag",
+        "temperatur",
+        "temperaturnu",
         "textbbox"
     ]
 }

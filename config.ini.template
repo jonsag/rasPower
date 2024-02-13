@@ -6,8 +6,8 @@ db_name=<user>
 db_port=<pass>
 
 [elpris]
-scheme = https
-url = www.elprisetjustnu.se
+elpris_scheme = https
+elpris_url = www.elprisetjustnu.se
 api = api/v1/prices
 area = SE3
 type = json

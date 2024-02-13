@@ -29,18 +29,37 @@ VAT = float((int(config.get('extra_fees', 'VAT').strip())))
 
 
 # elprisetjustnu.se
-SCHEME = os.environ.get("API_SCHEME", config.get('elpris', 'scheme').strip())
-NETLOC = os.environ.get("API_NETLOC", config.get('elpris', 'url').strip())
+elpris_SCHEME = os.environ.get("API_SCHEME", config.get('elpris', 'elpris_scheme').strip())
+elpris_NETLOC = os.environ.get("API_NETLOC", config.get('elpris', 'elpris_url').strip())
 
 
-def build_api_url(year, month, day):
-    path = (config.get('elpris', 'api').strip() +
+def build_elpris_url(year, month, day):
+    path = (config.get('elpris', 'elpris_api').strip() +
             "/" + year +
             "/" + month + "-" + day +
             "_" + config.get('elpris', 'area').strip() +
             "." + config.get('elpris', 'type').strip())
-    # query = urlencode(dict(format=format, token=token))
+    # query = elpris_urlencode(dict(format=format, token=token))
 
-    # return urlunsplit((SCHEME, NETLOC, path, query, ""))
-    return urlunsplit((SCHEME, NETLOC, path, "", ""))
+    # return elpris_urlunsplit((SCHEME, NETLOC, path, query, ""))
+    return urlunsplit((elpris_SCHEME, elpris_NETLOC, path, "", ""))
 
+# temperatur.nu
+temperatur_SCHEME = os.environ.get("API_SCHEME", config.get('temperatur', 'temperatur_scheme').strip())
+temperatur_NETLOC = os.environ.get("API_NETLOC", config.get('temperatur', 'temperatur_url').strip())
+
+
+def build_temperatur_url(s_year, s_month, s_day, e_year, e_month, e_day):
+    path = (config.get('temperatur', 'temperatur_api').strip() +
+            "?p=" + config.get('temperatur', 'temperature_location').strip() + 
+            "&cli=" + config.get('temperatur', 'temperature_client').strip() + 
+            "&data" + 
+            "&start=" + s_year + "-" + s_month + "-" + s_day +
+            "-00-00" + 
+            "&end=" + e_year + "-" + e_month + "-" + e_day + 
+            "-00-00") 
+
+        # https://api.temperatur.nu/tnu_1.17.php?p=enstaberga&cli=rasPower&data&start=2024-01-01-00-00&end=2024-01-02-00-00
+
+    # return elpris_urlunsplit((SCHEME, NETLOC, path, query, ""))
+    return urlunsplit((temperatur_SCHEME, temperatur_NETLOC, path, "", ""))
