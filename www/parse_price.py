@@ -22,10 +22,11 @@ from sql import do_sql
 
 def parse_elprisetjustnu(start_day, no_days):
 
-    print(f'Parsing prices for {start_day} - {start_day + timedelta(days = no_days - 1)}')
+    print(
+        f'Parsing prices for {start_day} - {start_day + timedelta(days = no_days - 1)}')
 
     for x in range(no_days):
-        when = start_day + timedelta(days = x)
+        when = start_day + timedelta(days=x)
         print(x)
 
         year = str(when.year)
@@ -54,7 +55,7 @@ def parse_elprisetjustnu(start_day, no_days):
 
         if response_code == 200:
             data = response_API.text
-            #print(data)
+            # print(data)
             parse_json = json.loads(data)
 
             for y in range(24):
@@ -72,13 +73,13 @@ def parse_elprisetjustnu(start_day, no_days):
                          transfer + tax) * (1 + VAT)
 
                 # print(taxes)
-                #print(f'Hour: {hour:25}, Spot price: {price_SEK:8f}, Our Price: {subtotal:8f}, Taxes: {taxes:8f}, Total: {total:8f},')
+                # print(f'Hour: {hour:25}, Spot price: {price_SEK:8f}, Our Price: {subtotal:8f}, Taxes: {taxes:8f}, Total: {total:8f},')
 
                 sql = (
                     f"INSERT INTO {db_name}.price(hour, SEK_per_kWh) VALUES ('{hour[:10]} {hour[11:13]}', {price_SEK:f}) ON DUPLICATE KEY UPDATE SEK_per_kWh = {price_SEK}")
-                #print(sql)
+                # print(sql)
                 output = do_sql(sql)
-                #print(output)
+                # print(output)
         else:
             print("No data yet")
 
@@ -100,9 +101,12 @@ def arguments(argv):
         print('Error\ntest.py -d <date> -n <number of days>')
         sys.exit(2)
 
+    print(opts)
+
     for opt, arg in opts:
         if opt == '-h':
-            print(f'{os.path.basename(sys.argv[0])} -d <date> -n <number of days>')
+            print(
+                f'{os.path.basename(sys.argv[0])} -d <date> -n <number of days>')
             sys.exit()
         elif opt in ("-d", "--day"):
             try:
@@ -118,5 +122,5 @@ def arguments(argv):
 
 if __name__ == "__main__":
     day, number = arguments(sys.argv[1:])
-    
+
     parse_elprisetjustnu(day, int(number))

@@ -38,11 +38,11 @@ Enable SPI
 
 #### Install Python modules
 
->$ sudo apt install python3-dev python3-pip python3-numpy python3-pymysql python3-rpi.gpio python3-spidev python3-willow python3-luma.lcd  
+>$ sudo apt install python3-dev python3-pip python3-numpy python3-pymysql python3-rpi.gpio python3-spidev python3-willow python3-luma.lcd python3-sqlparse  
 
 OR if you want to use pip
 
->$ pip install PyMySQL pwinput
+>$ pip install numpy spidev willow PyMySQL pwinput sqlparse  
 
 ### MariaDB setup
 

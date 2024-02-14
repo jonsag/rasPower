@@ -6,7 +6,20 @@ from sql import do_sql
 
 import sqlparse
 
-sql = ("SELECT hour, AVG(temp) AS temp FROM temperature WHERE DATE_SUB(`hour`,INTERVAL 1 HOUR) GROUP BY DATE(hour), HOUR(hour)")
+sql = ("SELECT * FROM surcharges ORDER BY time DESC LIMIT 1;")
+answer = do_sql(sql)
+for line in answer:
+    #    print(f'{line[0]}, {line[1]}, {line[2]}, {line[3]}, {line[4]}, {line[5]}, {line[6]}')
+    surcharges = line[1] + line[2] + line[3] + line[4] + line[5]
+    VAT = line[6]
+
+sql = ("SELECT price.hour, " +
+       "price.SEK_per_kWh, " +
+       "(SELECT IFNULL(AVG(temperature.temp), 0) " +
+       "FROM temperature " +
+       "WHERE DATE(temperature.hour) = DATE(price.hour) " +
+       "AND HOUR(temperature.hour) = HOUR(price.hour)) AS temp " +
+       "FROM price")
 
 
 def webpage():
@@ -23,17 +36,18 @@ def webpage():
     print("function drawChart() {")
     print("var data = google.visualization.arrayToDataTable([")
 
-    print("['Hour', 'Temp'],")
+    print("['Hour', 'SEK', 'Total', 'Temperature'],")
 
     answer = do_sql(sql)
 
     for line in answer:
-        print(f'["{line[0]}", {line[1]}],')
+        print(
+            f'["{line[0]}", {line[1]}, {(line[1] + surcharges) * (1 + VAT / 100)}, {line[2]}],')
     print("]);")
 
     print()
     print("var options = {")
-    print("title: 'Average temperature/hour',")
+    print("title: 'Electricity price/hour & Temperature',")
     # print("curveType: 'function',")
     print("legend: { position: 'bottom' }")
     print("};")
