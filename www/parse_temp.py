@@ -78,7 +78,7 @@ def parse_temperaturnu(start_day, no_days):
 
             sql = (
                 f"INSERT INTO {db_name}.temperature(hour, temp) VALUES ('{hour}', {temp}) ON DUPLICATE KEY UPDATE temp = {temp}")
-            print(sql)
+            #print(sql)
 
             output = do_sql(sql)
             print(output)

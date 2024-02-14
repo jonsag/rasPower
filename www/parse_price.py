@@ -54,7 +54,7 @@ def parse_elprisetjustnu(start_day, no_days):
 
         if response_code == 200:
             data = response_API.text
-            print(data)
+            #print(data)
             parse_json = json.loads(data)
 
             for y in range(24):
