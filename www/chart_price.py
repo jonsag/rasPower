@@ -19,7 +19,7 @@ for line in answer:
 
 def construct_sql(day, number):
 
-    last = day + timedelta(days = int(number) - 1)
+    last = day + timedelta(days=int(number) - 1)
 
     sql = ("SELECT hour, SEK_per_kWh FROM price WHERE DATE(hour) >= '" +
            str(day) + "' AND DATE(hour) <= '" + str(last) + "'")
@@ -65,9 +65,10 @@ def webpage(sql, day, number):
     print("</head>")
     print("<body>")
 
-    print("Day: %s \t No: %s <br>\n" % (day, number))
+    # print("Day: %s \t No: %s <br>\n" % (day, number))
 
-    print(sqlparse.format(sql, reindent=True, keyword_case='upper'))
+    print(sqlparse.format(sql, reindent=True))  # , keyword_case='upper'))
+
     print()
 
     print("<div id='curve_chart' style='width: 1200px; height: 700px'></div>")
@@ -76,9 +77,7 @@ def webpage(sql, day, number):
     print("</html>")
 
 
-def cli_arguments(argv):
-    day = date.today()
-    number = 1
+def cli_arguments(argv, day, number):
 
     try:
         opts, args = getopt.getopt(argv,
@@ -105,9 +104,7 @@ def cli_arguments(argv):
     return day, number
 
 
-def cgi_arguments(arguments):
-    day = date.today()
-    number = 1
+def cgi_arguments(arguments, day, number):
 
     for opt in arguments.keys():
         if opt == '-h':
@@ -128,16 +125,19 @@ def cgi_arguments(arguments):
 
 
 if __name__ == "__main__":
+    day = date.today()
+    number = 1
+
     if os.getenv("REQUEST_METHOD"):
         # print("running as CGI")
         import cgi
-        day, number = cgi_arguments(cgi.FieldStorage())
+        day, number = cgi_arguments(cgi.FieldStorage(), day, number)
 
     else:
         # print("not running as CGI")
         import sys
         import getopt
-        day, number = cli_arguments(sys.argv[1:])
+        day, number = cli_arguments(sys.argv[1:], day, number)
 
     sql = construct_sql(day, number)
 

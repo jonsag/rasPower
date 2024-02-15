@@ -69,7 +69,7 @@ def parse_temperaturnu(start_day, no_days):
         # print(data)
         # parse_json = json.loads(json.dumps(data))
         parse_json = json.loads(data)
-        
+
         for y in range(len(parse_json[0]['stations'][0]['data'])):
             hour = parse_json[0]['stations'][0]['data'][y]['datetime']
 
@@ -78,13 +78,12 @@ def parse_temperaturnu(start_day, no_days):
 
             sql = (
                 f"INSERT INTO {db_name}.temperature(hour, temp) VALUES ('{hour}', {temp}) ON DUPLICATE KEY UPDATE temp = {temp}")
-            #print(sql)
+            # print(sql)
 
             output = do_sql(sql)
-            print(output)
+            # print(output)
     else:
         print("No data yet")
-        
 
     # json_formatted_str = json.dumps(parse_json, indent=2)
     # print(json_formatted_str)

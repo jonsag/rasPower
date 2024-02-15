@@ -5,11 +5,24 @@
 from sql import do_sql
 
 import sqlparse
+import os
 
-sql = ("SELECT hour, AVG(temp) AS temp FROM temperature WHERE DATE_SUB(`hour`,INTERVAL 1 HOUR) GROUP BY DATE(hour), HOUR(hour)")
+from datetime import date, timedelta, datetime
 
 
-def webpage():
+def construct_sql(day, number):
+    last = day + timedelta(days=int(number) - 1)
+
+    sql = ("SELECT hour, AVG(temp) AS temp FROM temperature " +
+           "WHERE DATE_SUB(`hour`,INTERVAL 1 HOUR) AND " +
+           "DATE(hour) >= '" + str(day) +
+           "' AND DATE(hour) <= '" + str(last) +
+           "'GROUP BY DATE(hour), HOUR(hour)")
+
+    return sql
+
+
+def webpage(sql, day, number):
 
     print("Content-Type: text/html")
     print()
@@ -53,5 +66,68 @@ def webpage():
     print("</html>")
 
 
+def cli_arguments(argv, day, number):
+
+    try:
+        opts, args = getopt.getopt(argv,
+                                   "hd:n:",
+                                   ["help", "day=", "number="])
+    except getopt.GetoptError:
+        print('Error\ntest.py -d <date> -n <number of days>')
+        sys.exit(2)
+
+    for opt, arg in opts:
+        if opt == '-h':
+            print(
+                f'{os.path.basename(sys.argv[0])} -d <date> -n <number of days>')
+            sys.exit()
+        elif opt in ("-d", "--day"):
+            try:
+                day = datetime.strptime(arg, '%Y-%m-%d').date()
+            except:
+                print("Error\nEnter date in the format YYYY-MM-DD")
+                sys.exit(3)
+        elif opt in ("-n", "--number"):
+            number = arg
+
+    return day, number
+
+
+def cgi_arguments(arguments, day, number):
+
+    for opt in arguments.keys():
+        if opt == '-h':
+            print(
+                f'{os.path.basename(sys.argv[0])} -d <date> -n <number of days>')
+            sys.exit()
+        elif opt in ("d", "day"):
+            try:
+                day = datetime.strptime(
+                    arguments[opt].value, '%Y-%m-%d').date()
+            except:
+                print("Error\nEnter date in the format YYYY-MM-DD")
+                sys.exit(3)
+        elif opt in ("n", "number"):
+            number = arguments[opt].value
+
+    return day, number
+
+
 if __name__ == "__main__":
-    webpage()
+    day = date.today() - timedelta(days=1)
+    number = 1
+
+    if os.getenv("REQUEST_METHOD"):
+        # print("running as CGI")
+        import cgi
+        day, number = cgi_arguments(cgi.FieldStorage(), day, number)
+
+    else:
+        # print("not running as CGI")
+        import sys
+        import getopt
+        day, number = cli_arguments(sys.argv[1:], day, number)
+
+    sql = construct_sql(day, number)
+
+    webpage(sql, day, number)
