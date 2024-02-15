@@ -26,9 +26,9 @@ def construct_sql(day, number):
            "FROM temperature " +
            "WHERE DATE(temperature.hour) = DATE(price.hour) " +
            "AND HOUR(temperature.hour) = HOUR(price.hour)) AS temp " +
-           " FROM price " + 
+           " FROM price " +
            "WHERE DATE(hour) >= '" + str(day) +
-           "' AND DATE(hour) <= '" + str(last) + 
+           "' AND DATE(hour) <= '" + str(last) +
            "'")
 
     return sql

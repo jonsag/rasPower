@@ -6,6 +6,7 @@ import sys
 
 # handle errors
 
+
 def onError(errorCode, extra):
     print("\nError:")
     if errorCode in (1, 2):  # print error information, print usage and exit
@@ -19,6 +20,7 @@ def onError(errorCode, extra):
         return
 
 # print usage information
+
 
 def usage(exitCode):
     print("\nUsage:")

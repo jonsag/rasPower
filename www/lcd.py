@@ -92,13 +92,12 @@ with canvas(device) as draw:
                   round(scale_y(float(line[0]))), "-->",
                   round(scale_x(i + 1)), ", ",
                   round(scale_y(float(line[0]))))
-            
 
         old_line = line[0]
 
         i = i + 1
 
-        #if i == 2:
+        # if i == 2:
         #    break
 
 time.sleep(60)
