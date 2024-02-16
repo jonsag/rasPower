@@ -38,11 +38,14 @@ Enable SPI
 
 #### Install Python modules
 
->$ sudo apt install python3-dev python3-pip python3-numpy python3-pymysql python3-rpi.gpio python3-spidev python3-willow python3-luma.lcd python3-sqlparse  
+>$ sudo apt install python3-dev python3-pip  
+>$ pip install --break-system-packages luma.lcd numpy openmeteo_requests pandas pwinput pymysql requests-cache retry_requests rpi.gpio spidev sqlparse willow pyarrow  
 
-OR if you want to use pip
+At the moment openmeteo_sdk doesn't install correctly  
 
->$ pip install numpy spidev willow PyMySQL pwinput sqlparse  
+>$ wget https://github.com/open-meteo/sdk/archive/refs/tags/v1.10.0.tar.gz -O 'openmeteo-sdk-1.10.0.tar.gz'  
+>$ tar zxvf openmeteo-sdk-1.10.0.tar.gz  
+>$ sudo cp -R sdk-1.10.0/python/openmeteo_sdk /usr/local/lib/python3.11/dist-packages/  
 
 ### MariaDB setup
 

@@ -36,6 +36,7 @@ elpris_NETLOC = os.environ.get(
 
 
 def build_elpris_url(year, month, day):
+
     path = (config.get('elpris', 'elpris_api').strip() +
             "/" + year +
             "/" + month + "-" + day +
@@ -55,6 +56,7 @@ temperatur_NETLOC = os.environ.get(
 
 
 def build_temperatur_url(s_year, s_month, s_day, e_year, e_month, e_day):
+
     path = (config.get('temperatur', 'temperatur_api').strip() +
             "?p=" + config.get('temperatur', 'temperature_location').strip() +
             "&cli=" + config.get('temperatur', 'temperature_client').strip() +
@@ -66,5 +68,52 @@ def build_temperatur_url(s_year, s_month, s_day, e_year, e_month, e_day):
 
     # https://api.temperatur.nu/tnu_1.17.php?p=enstaberga&cli=rasPower&data&start=2024-01-01-00-00&end=2024-01-02-00-00
 
-    # return elpris_urlunsplit((SCHEME, NETLOC, path, query, ""))
     return urlunsplit((temperatur_SCHEME, temperatur_NETLOC, path, "", ""))
+
+
+# open-meteo.com
+openmeteo_SCHEME = os.environ.get("API_SCHEME", config.get(
+    'openmeteo', 'openmeteo_scheme').strip())
+openmeteo_NETLOC = os.environ.get(
+    "API_NETLOC", config.get('openmeteo', 'openmeteo_url').strip())
+
+
+def build_openmeteo_url_short():
+
+    path = (config.get('openmeteo', 'openmeteo_api').strip())
+
+    # https://api.open-meteo.com/v1/forecast
+
+    return urlunsplit((openmeteo_SCHEME, openmeteo_NETLOC, path, "", ""))
+
+
+openmeteo_latitude = float(config.get(
+    'openmeteo', 'openmeteo_latitude').strip())
+openmeteo_longitude = float(config.get(
+    'openmeteo', 'openmeteo_longitude').strip())
+openmeteo_timezone = config.get('openmeteo', 'openmeteo_timezone').strip()
+openmeteo_forecast_days = int(config.get(
+    'openmeteo', 'openmeteo_forecast_days').strip())
+
+
+def build_openmeteo_url(latitude, longitude, timezone, days):
+
+    path = (config.get('openmeteo', 'openmeteo_api').strip() +
+            "?latitude=" + str(latitude) +
+            "&longitude=" + str(longitude) +
+            "&hourly=temperature_2m,wind_speed_10m" +
+            "&daily=sunrise,sunset" +
+            "&wind_speed_unit=ms" +
+            "&timezone=" + timezone +
+            "&forecast_days=" + str(days))
+
+    # https://api.open-meteo.com/v1/forecast?
+    # latitude=52.52&
+    # longitude=13.41&
+    # hourly=temperature_2m,wind_speed_10m&
+    # daily=sunrise,sunset&
+    # wind_speed_unit=ms&
+    # timezone=Europe%2FBerlin&
+    # forecast_days=3
+
+    return urlunsplit((openmeteo_SCHEME, openmeteo_NETLOC, path, "", ""))

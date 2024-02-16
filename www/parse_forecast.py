@@ -11,16 +11,18 @@ import os
 from datetime import date, timedelta, datetime
 
 
-from readConfig import (build_temperatur_url, 
+from readConfig import (build_openmeteo_url,
+                        openmeteo_latitude, openmeteo_longitude, openmeteo_timezone, openmeteo_forecast_days,
                         db_name)
 
 from sql import do_sql
 
 
-def parse_temperaturnu(start_day, no_days):
+def parse_openmeteo_forecast(no_days):
+    start_day = date.today()
 
     print(
-        f'Parsing temperature history for {start_day} - {start_day + timedelta(days = no_days - 1)} ...')
+        f'\nParsing forecast for {start_day} - {start_day + timedelta(days = no_days - 1)}')
 
     s_year = str(start_day.year)
     if start_day.month < 10:
@@ -44,30 +46,52 @@ def parse_temperaturnu(start_day, no_days):
     else:
         e_day = str(end_day.day)
 
-    temperatur_url = build_temperatur_url(
-        s_year, s_month, s_day, e_year, e_month, e_day)
-    print(temperatur_url)
+
+    openmeteo_url = build_openmeteo_url(
+        openmeteo_latitude, openmeteo_longitude, openmeteo_timezone, openmeteo_forecast_days)
+    print("\n%s" % openmeteo_url)
 
     #    with request.urlopen(temperatur_url) as elpris_url:
     #        data = json.load(temperatur_url)
     #        print(data)
 
-    response_API = requests.get(temperatur_url)
+    response_API = requests.get(openmeteo_url)
     data = response_API.text
 
     response_code = 200  # response_API.status_code
-    print(response_code)
+    print("\nResponse code: %s" % response_code)
 
     if response_code == 200:
-        data = "[" + response_API.text + "]"
 
-        # data = [{"full_exec_time": 0.009675025939941406, "title": "Temperatur.nu API 1.17", "client": "unsigned", "stations": [{"title": "Enstaberga", "id": "enstaberga", "temp": "-0.7", "data": [{"datetime": "2024-01-01 01:00", "temperatur": "-1.4"}, {"datetime": "2024-01-01 02:00", "temperatur": "-1.5"}, {"datetime": "2024-01-01 03:00", "temperatur": "-1.6"}, {"datetime": "2024-01-01 04:00", "temperatur": "-1.6"}, {"datetime": "2024-01-01 05:00", "temperatur": "-1.8"}, {"datetime": "2024-01-01 06:00", "temperatur": "-1.9"}, {"datetime": "2024-01-01 07:00", "temperatur": "-2.0"}, {"datetime": "2024-01-01 08:00", "temperatur": "-2.1"}, {"datetime": "2024-01-01 09:00", "temperatur": "-2.0"}, {"datetime": "2024-01-01 10:00", "temperatur": "-1.9"}, {"datetime": "2024-01-01 11:00", "temperatur": "-1.9"},
+        data = "[" + response_API.text + "]"
 
         # print(data)
         # parse_json = json.loads(json.dumps(data))
         parse_json = json.loads(data)
 
-        for y in range(len(parse_json[0]['stations'][0]['data'])):
+        # json_formatted_str = json.dumps(parse_json, indent=2)
+        # print("\n" + json_formatted_str + "\n")
+
+        print()
+
+        for x in range(len(parse_json[0]['hourly']['time'])):
+            time = parse_json[0]['hourly']['time'][x]
+            temp = float(parse_json[0]['hourly']['temperature_2m'][x])
+            wind = float(parse_json[0]['hourly']['wind_speed_10m'][x])
+
+            print("Time: %s \t Temp: %s \t Wind: %s" % (time, temp, wind))
+
+        print()
+
+        for y in range(len(parse_json[0]['daily']['time'])):
+            time = parse_json[0]['daily']['time'][y]
+            sunrise = parse_json[0]['daily']['sunrise'][y]
+            sunset = parse_json[0]['daily']['sunset'][y]
+
+            print("Time: %s \t Sunrise: %s \t Sunset: %s" %
+                  (time, sunrise, sunset))
+
+        '''for y in range(len(parse_json[0]['stations'][0]['data'])):
             hour = parse_json[0]['stations'][0]['data'][y]['datetime']
 
             temp = float(parse_json[0]['stations']
@@ -78,7 +102,7 @@ def parse_temperaturnu(start_day, no_days):
             # print(sql)
 
             output = do_sql(sql)
-            # print(output)
+            # print(output)'''
     else:
         print("No data yet")
 
@@ -89,8 +113,7 @@ def parse_temperaturnu(start_day, no_days):
 
 
 def arguments(argv):
-    day = date.today() - timedelta(days=1)
-    number = 2
+    number = openmeteo_forecast_days
 
     try:
         opts, args = getopt.getopt(argv,
@@ -103,21 +126,15 @@ def arguments(argv):
     for opt, arg in opts:
         if opt == '-h':
             print(
-                f'{os.path.basename(sys.argv[0])} -d <date> -n <number of days>')
+                f'{os.path.basename(sys.argv[0])} -n <number of days>')
             sys.exit()
-        elif opt in ("-d", "--day"):
-            try:
-                day = datetime.strptime(arg, '%Y-%m-%d').date()
-            except:
-                print("Error\nEnter date in the format YYYY-MM-DD")
-                sys.exit(3)
         elif opt in ("-n", "--number"):
             number = arg
 
-    return day, number
+    return number
 
 
 if __name__ == "__main__":
-    day, number = arguments(sys.argv[1:])
+    number = arguments(sys.argv[1:])
 
-    parse_temperaturnu(day, int(number))
+    parse_openmeteo_forecast(int(number))

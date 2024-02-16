@@ -23,7 +23,7 @@ from sql import do_sql
 def parse_elprisetjustnu(start_day, no_days):
 
     print(
-        f'Parsing prices for {start_day} - {start_day + timedelta(days = no_days - 1)}')
+        f'Parsing prices for {start_day} - {start_day + timedelta(days = no_days - 1)} ...')
 
     for x in range(no_days):
         when = start_day + timedelta(days=x)
