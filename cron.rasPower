@@ -1,0 +1,4 @@
+# update data
+02 15 * * * www-data /var/www/rasPower/parse_forecast.py >> /dev/null 2>&1
+02 15 * * * www-data /var/www/rasPower/parse_forecast.py >> /dev/null 2>&1
+02 15 * * * www-data /var/www/rasPower/parse_temp.py >> /dev/null 2>&1

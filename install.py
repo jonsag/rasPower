@@ -82,14 +82,22 @@ def db():
     else:
         mariadb_setup()
 
-
+def cron():
+    print("Installing cron jobs ...")
+    
+    shutil.copy(os.path.join(os.getcwd(), 'cron.rasPower'),
+                    '/etc/cron.d/rasPower')
+    
 if __name__ == "__main__":
     # check if root
     print("Checking if root...")
+    
     if is_root() == 0:
         print("Must be run as root")
         sys.exit(1)
     else:
-        # apache()
+        apache()
         db()
         install_rasPower()
+        cron()
+        
