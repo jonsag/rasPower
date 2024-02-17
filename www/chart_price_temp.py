@@ -24,8 +24,8 @@ def construct_sql(day, number):
            "price.SEK_per_kWh, " +
            "(SELECT IFNULL(AVG(temperature.temp), 0) " +
            "FROM temperature " +
-           "WHERE DATE(temperature.hour) = DATE(price.hour) " +
-           "AND HOUR(temperature.hour) = HOUR(price.hour)) AS temp " +
+           "WHERE DATE(temperature.time) = DATE(price.hour) " +
+           "AND HOUR(temperature.time) = HOUR(price.hour)) AS temp " +
            " FROM price " +
            "WHERE DATE(hour) >= '" + str(day) +
            "' AND DATE(hour) <= '" + str(last) +

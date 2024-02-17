@@ -13,11 +13,11 @@ from datetime import date, timedelta, datetime
 def construct_sql(day, number):
     last = day + timedelta(days=int(number) - 1)
 
-    sql = ("SELECT hour, AVG(temp) AS temp FROM temperature " +
-           "WHERE DATE_SUB(`hour`,INTERVAL 1 HOUR) AND " +
-           "DATE(hour) >= '" + str(day) +
-           "' AND DATE(hour) <= '" + str(last) +
-           "'GROUP BY DATE(hour), HOUR(hour)")
+    sql = ("SELECT time, AVG(temp) AS temp FROM temperature " +
+           "WHERE DATE_SUB(`time`,INTERVAL 1 HOUR) AND " +
+           "DATE(time) >= '" + str(day) +
+           "' AND DATE(time) <= '" + str(last) +
+           "'GROUP BY DATE(time), HOUR(time)")
 
     return sql
 
@@ -36,7 +36,7 @@ def webpage(sql, day, number):
     print("function drawChart() {")
     print("var data = google.visualization.arrayToDataTable([")
 
-    print("['Hour', 'Temp'],")
+    print("['Time', 'Temp'],")
 
     answer = do_sql(sql)
 

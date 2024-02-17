@@ -11,7 +11,7 @@ import os
 from datetime import date, timedelta, datetime
 
 
-from readConfig import (build_temperatur_url, 
+from readConfig import (build_temperatur_url,
                         db_name)
 
 from sql import do_sql
@@ -20,7 +20,7 @@ from sql import do_sql
 def parse_temperaturnu(start_day, no_days):
 
     print(
-        f'Parsing temperature history for {start_day} - {start_day + timedelta(days = no_days - 1)} ...')
+        f'\nParsing temperature history for {start_day} - {start_day + timedelta(days = no_days - 1)} ...')
 
     s_year = str(start_day.year)
     if start_day.month < 10:
@@ -46,7 +46,7 @@ def parse_temperaturnu(start_day, no_days):
 
     temperatur_url = build_temperatur_url(
         s_year, s_month, s_day, e_year, e_month, e_day)
-    print(temperatur_url)
+    print("\n%s" % temperatur_url)
 
     #    with request.urlopen(temperatur_url) as elpris_url:
     #        data = json.load(temperatur_url)
@@ -55,8 +55,8 @@ def parse_temperaturnu(start_day, no_days):
     response_API = requests.get(temperatur_url)
     data = response_API.text
 
-    response_code = 200  # response_API.status_code
-    print(response_code)
+    response_code = response_API.status_code
+    print("Response code: %s" % response_code)
 
     if response_code == 200:
         data = "[" + response_API.text + "]"
@@ -68,14 +68,14 @@ def parse_temperaturnu(start_day, no_days):
         parse_json = json.loads(data)
 
         for y in range(len(parse_json[0]['stations'][0]['data'])):
-            hour = parse_json[0]['stations'][0]['data'][y]['datetime']
+            time = parse_json[0]['stations'][0]['data'][y]['datetime']
 
             temp = float(parse_json[0]['stations']
                          [0]['data'][y]['temperatur'])
 
             sql = (
-                f"INSERT INTO {db_name}.temperature(hour, temp) VALUES ('{hour}', {temp}) ON DUPLICATE KEY UPDATE temp = {temp}")
-            # print(sql)
+                f"INSERT INTO {db_name}.temperature(time, temp) VALUES ('{time}', {temp}) ON DUPLICATE KEY UPDATE temp = {temp}")
+            #print(sql)
 
             output = do_sql(sql)
             # print(output)
@@ -88,9 +88,7 @@ def parse_temperaturnu(start_day, no_days):
     print()
 
 
-def arguments(argv):
-    day = date.today() - timedelta(days=1)
-    number = 2
+def arguments(argv, day, number):
 
     try:
         opts, args = getopt.getopt(argv,
@@ -118,6 +116,9 @@ def arguments(argv):
 
 
 if __name__ == "__main__":
-    day, number = arguments(sys.argv[1:])
+    day = date.today() - timedelta(days=1)
+    number = 2
+
+    day, number = arguments(sys.argv[1:], day, number)
 
     parse_temperaturnu(day, int(number))

@@ -1,5 +1,6 @@
 {
     "cSpell.words": [
+        "dataframe",
         "elöverföring",
         "elpris",
         "elpriset",
@@ -12,13 +13,16 @@
         "lerp",
         "maxx",
         "maxy",
+        "Meteo",
         "mysqlclose",
+        "openmeteo",
         "posn",
         "Q'uit",
         "rtype",
         "spotpåslag",
         "temperatur",
         "temperaturnu",
-        "textbbox"
+        "textbbox",
+        "yourpassword"
     ]
 }

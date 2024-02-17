@@ -46,7 +46,6 @@ def parse_openmeteo_forecast(no_days):
     else:
         e_day = str(end_day.day)
 
-
     openmeteo_url = build_openmeteo_url(
         openmeteo_latitude, openmeteo_longitude, openmeteo_timezone, openmeteo_forecast_days)
     print("\n%s" % openmeteo_url)
@@ -58,8 +57,8 @@ def parse_openmeteo_forecast(no_days):
     response_API = requests.get(openmeteo_url)
     data = response_API.text
 
-    response_code = 200  # response_API.status_code
-    print("\nResponse code: %s" % response_code)
+    response_code = response_API.status_code
+    print("Response code: %s" % response_code)
 
     if response_code == 200:
 
@@ -79,7 +78,7 @@ def parse_openmeteo_forecast(no_days):
             temp = float(parse_json[0]['hourly']['temperature_2m'][x])
             wind = float(parse_json[0]['hourly']['wind_speed_10m'][x])
 
-            print("Time: %s \t Temp: %s \t Wind: %s" % (time, temp, wind))
+            #print("Time: %s \t Temp: %s \t Wind: %s" % (time, temp, wind))
 
         print()
 
@@ -88,8 +87,8 @@ def parse_openmeteo_forecast(no_days):
             sunrise = parse_json[0]['daily']['sunrise'][y]
             sunset = parse_json[0]['daily']['sunset'][y]
 
-            print("Time: %s \t Sunrise: %s \t Sunset: %s" %
-                  (time, sunrise, sunset))
+            #print("Time: %s \t Sunrise: %s \t Sunset: %s" %
+            #      (time, sunrise, sunset))
 
         '''for y in range(len(parse_json[0]['stations'][0]['data'])):
             hour = parse_json[0]['stations'][0]['data'][y]['datetime']

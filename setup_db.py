@@ -76,9 +76,17 @@ def mariadb_setup():
     run_sql(cur, sql)
 
     sql = ("CREATE TABLE IF NOT EXISTS " +
-           db_name + ".temperature(hour DATETIME PRIMARY KEY, temp REAL)")
+           db_name + ".temperature(time DATETIME PRIMARY KEY, temp REAL)")
     run_sql(cur, sql)
 
+    sql = ("CREATE TABLE IF NOT EXISTS " +
+           db_name + ".forecast(time DATETIME PRIMARY KEY, temp REAL, wind REAL)")
+    run_sql(cur, sql)
+    
+    sql = ("CREATE TABLE IF NOT EXISTS " +
+           db_name + ".sun(day DATE PRIMARY KEY, sunrise DATETIME, sunset DATETIME)")
+    run_sql(cur, sql)
+    
     print(f'\nCreating user...')
     sql = ("CREATE USER IF NOT EXISTS " +
            db_user + "@" +

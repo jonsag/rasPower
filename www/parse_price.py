@@ -23,11 +23,11 @@ from sql import do_sql
 def parse_elprisetjustnu(start_day, no_days):
 
     print(
-        f'Parsing prices for {start_day} - {start_day + timedelta(days = no_days - 1)} ...')
+        f'\nParsing prices for {start_day} - {start_day + timedelta(days = no_days - 1)} ...')
 
     for x in range(no_days):
         when = start_day + timedelta(days=x)
-        print(x)
+        # print(x)
 
         year = str(when.year)
         if when.month < 10:
@@ -39,9 +39,9 @@ def parse_elprisetjustnu(start_day, no_days):
         else:
             day = str(when.day)
 
-        print(when)
+        # print(when)
         elpris_url = build_elpris_url(year, month, day)
-        print(elpris_url)
+        print("\n%s" % elpris_url)
 
     #    with request.urlopen(elpris_url) as elpris_url:
     #        data = json.load(elpris_url)
@@ -51,7 +51,7 @@ def parse_elprisetjustnu(start_day, no_days):
         data = response_API.text
 
         response_code = response_API.status_code
-        print(response_code)
+        print("Response code: %s" % response_code)
 
         if response_code == 200:
             data = response_API.text
@@ -89,9 +89,7 @@ def parse_elprisetjustnu(start_day, no_days):
         print()
 
 
-def arguments(argv):
-    day = date.today()
-    number = 2
+def arguments(argv, day, number):
 
     try:
         opts, args = getopt.getopt(argv,
@@ -101,7 +99,7 @@ def arguments(argv):
         print('Error\ntest.py -d <date> -n <number of days>')
         sys.exit(2)
 
-    print(opts)
+    # print(opts)
 
     for opt, arg in opts:
         if opt == '-h':
@@ -121,6 +119,9 @@ def arguments(argv):
 
 
 if __name__ == "__main__":
-    day, number = arguments(sys.argv[1:])
+    day = date.today()
+    number = 2
+
+    day, number = arguments(sys.argv[1:], day, number)
 
     parse_elprisetjustnu(day, int(number))
