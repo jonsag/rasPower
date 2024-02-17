@@ -12,10 +12,7 @@ from datetime import date, timedelta, datetime
 
 
 from readConfig import (build_elpris_url,
-                        db_name,
-                        spot_surcharge, certificate_fee, trading_fee,
-                        transfer, tax,
-                        VAT)
+                        db_name)
 
 from sql import do_sql
 
@@ -61,22 +58,10 @@ def parse_elprisetjustnu(start_day, no_days):
             for y in range(24):
                 hour = parse_json[y]['time_start']
 
-                price_SEK = parse_json[y]['SEK_per_kWh']
-                additional_fees = (
-                    spot_surcharge + certificate_fee + trading_fee)
-
-                subtotal = (price_SEK + additional_fees) * (1 + VAT)
-
-                taxes = (price_SEK + additional_fees + transfer + tax) * VAT
-
-                total = (price_SEK + additional_fees +
-                         transfer + tax) * (1 + VAT)
-
-                # print(taxes)
-                # print(f'Hour: {hour:25}, Spot price: {price_SEK:8f}, Our Price: {subtotal:8f}, Taxes: {taxes:8f}, Total: {total:8f},')
+                price_SEK = float(parse_json[y]['SEK_per_kWh'])
 
                 sql = (
-                    f"INSERT INTO {db_name}.price(hour, SEK_per_kWh) VALUES ('{hour[:10]} {hour[11:13]}', {price_SEK:f}) ON DUPLICATE KEY UPDATE SEK_per_kWh = {price_SEK}")
+                    f"INSERT INTO {db_name}.price(hour, SEK_per_kWh) VALUES ('{hour[:10]} {hour[11:16]}', {price_SEK}) ON DUPLICATE KEY UPDATE SEK_per_kWh = {price_SEK}")
                 # print(sql)
                 output = do_sql(sql)
                 # print(output)

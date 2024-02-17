@@ -42,9 +42,9 @@ def build_elpris_url(year, month, day):
             "/" + month + "-" + day +
             "_" + config.get('elpris', 'area').strip() +
             "." + config.get('elpris', 'type').strip())
-    # query = elpris_urlencode(dict(format=format, token=token))
 
-    # return elpris_urlunsplit((SCHEME, NETLOC, path, query, ""))
+    # https://www.elprisetjustnu.se/api/v1/prices/2024/02-13_SE3.json
+
     return urlunsplit((elpris_SCHEME, elpris_NETLOC, path, "", ""))
 
 

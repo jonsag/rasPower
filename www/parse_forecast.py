@@ -24,7 +24,7 @@ def parse_openmeteo_forecast(no_days):
     print(
         f'\nParsing forecast for {start_day} - {start_day + timedelta(days = no_days - 1)}')
 
-    s_year = str(start_day.year)
+    '''s_year = str(start_day.year)
     if start_day.month < 10:
         s_month = "0" + str(start_day.month)
     else:
@@ -44,7 +44,7 @@ def parse_openmeteo_forecast(no_days):
     if end_day.day < 10:
         e_day = "0" + str(end_day.day)
     else:
-        e_day = str(end_day.day)
+        e_day = str(end_day.day)'''
 
     openmeteo_url = build_openmeteo_url(
         openmeteo_latitude, openmeteo_longitude, openmeteo_timezone, openmeteo_forecast_days)
@@ -71,24 +71,38 @@ def parse_openmeteo_forecast(no_days):
         # json_formatted_str = json.dumps(parse_json, indent=2)
         # print("\n" + json_formatted_str + "\n")
 
-        print()
+        # print()
 
         for x in range(len(parse_json[0]['hourly']['time'])):
             time = parse_json[0]['hourly']['time'][x]
             temp = float(parse_json[0]['hourly']['temperature_2m'][x])
             wind = float(parse_json[0]['hourly']['wind_speed_10m'][x])
 
-            #print("Time: %s \t Temp: %s \t Wind: %s" % (time, temp, wind))
+            #print(
+            #    f'Time: {time} \t {time[:10]} {time[11:16]} \t Temp: {temp} \t Wind: {wind}')
 
-        print()
+            sql = (
+                f"INSERT INTO {db_name}.forecast(time, temp, wind) VALUES ('{time[:10]} {time[11:16]}', {temp}, {wind}) ON DUPLICATE KEY UPDATE temp = {temp}, wind = {wind}")
+            # print(sql)
+            output = do_sql(sql)
+            # print(output)
+
+        # print()
 
         for y in range(len(parse_json[0]['daily']['time'])):
-            time = parse_json[0]['daily']['time'][y]
+            day = parse_json[0]['daily']['time'][y]
             sunrise = parse_json[0]['daily']['sunrise'][y]
             sunset = parse_json[0]['daily']['sunset'][y]
 
-            #print("Time: %s \t Sunrise: %s \t Sunset: %s" %
-            #      (time, sunrise, sunset))
+            #print(
+            #    f'Day: {day} \t Sunrise: {sunrise} \t {sunrise[:10]} {sunrise[11:16]} \t Sunset: {sunset} \t {sunset[:10]}  {sunset[11:16]}')
+
+            sql = (
+                f"INSERT INTO {db_name}.sun(day, sunrise, sunset) VALUES ('{day}', '{sunrise[:10]} {sunrise[11:16]}', '{sunset[:10]} {sunset[11:16]}') ON DUPLICATE KEY UPDATE sunrise = '{sunrise[:10]} {sunrise[11:16]}', sunset = '{sunset[:10]} {sunset[11:16]}'")
+            #print(sql)
+
+            output = do_sql(sql)
+            # print(output)
 
         '''for y in range(len(parse_json[0]['stations'][0]['data'])):
             hour = parse_json[0]['stations'][0]['data'][y]['datetime']
