@@ -8,8 +8,15 @@ import pymysql
 
 from getpass import getpass
 
-from www.readConfig import db_host, db_name, db_user, db_password
+import configparser
 
+config = configparser.ConfigParser()  # define config file
+config.read("config.ini") #read config file
+
+db_host = config.get('db', 'db_host').strip()
+db_user = config.get('db', 'db_user').strip()
+db_password = config.get('db', 'db_password').strip()
+db_name = config.get('db', 'db_name').strip()
 
 def mysqlconnect_install(root_password):
     # To connect MySQL database

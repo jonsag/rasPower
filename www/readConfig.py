@@ -7,8 +7,9 @@ import configparser
 import os
 
 config = configparser.ConfigParser()  # define config file
-# config.read("%s/config.ini" % os.path.dirname(os.path.realpath(__file__)))  # read config file
-config.read("config.ini")  # read config file
+config.read(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'config.ini')) # read config file
+
+#print(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'config.ini'))
 
 # database
 db_host = config.get('db', 'db_host').strip()

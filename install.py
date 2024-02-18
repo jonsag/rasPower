@@ -89,6 +89,8 @@ def cron():
                     '/etc/cron.d/rasPower')
     
 if __name__ == "__main__":
+    #print(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'config.ini'))
+    
     # check if root
     print("Checking if root...")
     

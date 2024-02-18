@@ -78,7 +78,7 @@ def parse_openmeteo_forecast(no_days):
             temp = float(parse_json[0]['hourly']['temperature_2m'][x])
             wind = float(parse_json[0]['hourly']['wind_speed_10m'][x])
 
-            #print(
+            # print(
             #    f'Time: {time} \t {time[:10]} {time[11:16]} \t Temp: {temp} \t Wind: {wind}')
 
             sql = (
@@ -94,12 +94,12 @@ def parse_openmeteo_forecast(no_days):
             sunrise = parse_json[0]['daily']['sunrise'][y]
             sunset = parse_json[0]['daily']['sunset'][y]
 
-            #print(
+            # print(
             #    f'Day: {day} \t Sunrise: {sunrise} \t {sunrise[:10]} {sunrise[11:16]} \t Sunset: {sunset} \t {sunset[:10]}  {sunset[11:16]}')
 
             sql = (
                 f"INSERT INTO {db_name}.sun(day, sunrise, sunset) VALUES ('{day}', '{sunrise[:10]} {sunrise[11:16]}', '{sunset[:10]} {sunset[11:16]}') ON DUPLICATE KEY UPDATE sunrise = '{sunrise[:10]} {sunrise[11:16]}', sunset = '{sunset[:10]} {sunset[11:16]}'")
-            #print(sql)
+            # print(sql)
 
             output = do_sql(sql)
             # print(output)
@@ -148,6 +148,7 @@ def arguments(argv):
 
 
 if __name__ == "__main__":
+
     number = arguments(sys.argv[1:])
 
     parse_openmeteo_forecast(int(number))
