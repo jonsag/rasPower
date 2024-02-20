@@ -9,15 +9,36 @@ import os
 
 from datetime import date, timedelta, datetime
 
+sql1 = ("SELECT * FROM surcharges ORDER BY time DESC LIMIT 1;")
+answer = do_sql(sql1)
+for line in answer:
+    #    print(f'{line[0]}, {line[1]}, {line[2]}, {line[3]}, {line[4]}, {line[5]}, {line[6]}')
+    surcharges = line[1] + line[2] + line[3] + line[4] + line[5]
+    VAT = line[6]
+
 
 def construct_sql(day, number):
     last = day + timedelta(days=int(number) - 1)
 
-    sql = ("SELECT time, AVG(temp) AS temp FROM temperature " +
-           "WHERE DATE_SUB(`time`,INTERVAL 1 HOUR) AND " +
-           "DATE(time) >= '" + str(day) +
-           "' AND DATE(time) <= '" + str(last) +
-           "'GROUP BY DATE(time), HOUR(time)")
+    sql = ("SELECT price.hour, " +
+           "price.SEK_per_kWh, " +
+           "(SELECT IFNULL(AVG(forecast.temp), 0) " +
+           "FROM forecast " +
+           "WHERE DATE(forecast.time) = DATE(price.hour) " +
+           "AND HOUR(forecast.time) = HOUR(price.hour)) AS temp, " +
+           "(SELECT IFNULL(AVG(forecast.wind), 0) " +
+           "FROM forecast " +
+           "WHERE DATE(forecast.time) = DATE(price.hour) " +
+           "AND HOUR(forecast.time) = HOUR(price.hour)) AS wind " +
+           " FROM price " +
+           "WHERE DATE(hour) >= '" + str(day) +
+           "' AND DATE(hour) <= '" + str(last) +
+           "'")
+
+    '''print(sql)
+    print()
+    print(sqlparse.format(sql, reindent=True, keyword_case='upper'))
+    print()'''
 
     return sql
 
@@ -36,17 +57,18 @@ def webpage(sql, day, number):
     print("function drawChart() {")
     print("var data = google.visualization.arrayToDataTable([")
 
-    print("['Time', 'Temp'],")
+    print("['Hour', 'SEK', 'Total', 'Temperature', 'Wind'],")
 
     answer = do_sql(sql)
 
     for line in answer:
-        print(f'["{line[0]}", {line[1]}],')
+        print(
+            f'["{line[0]}", {line[1]}, {(line[1] + surcharges) * (1 + VAT / 100)}, {line[2]}, {line[3]}],')
     print("]);")
 
     print()
     print("var options = {")
-    print("title: 'Average temperature/hour - historical',")
+    print("title: 'Electricity price/hour & Weather Forecast',")
     # print("curveType: 'function',")
     print("legend: { position: 'bottom' }")
     print("};")
@@ -115,7 +137,7 @@ def cgi_arguments(arguments, day, number):
 
 if __name__ == "__main__":
     day = date.today()
-    number = 1
+    number = 2
 
     if os.getenv("REQUEST_METHOD"):
         # print("running as CGI")

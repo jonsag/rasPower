@@ -87,7 +87,7 @@ def mariadb_setup():
     run_sql(cur, sql)
 
     sql = ("CREATE TABLE IF NOT EXISTS " +
-           db_name + ".forecast(time DATETIME PRIMARY KEY, temp REAL, wind REAL)")
+           db_name + ".forecast(time DATETIME PRIMARY KEY, temp REAL, rain REAL, wind REAL, gti_instant REAL)")
     run_sql(cur, sql)
     
     sql = ("CREATE TABLE IF NOT EXISTS " +

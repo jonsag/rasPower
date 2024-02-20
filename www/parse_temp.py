@@ -72,13 +72,18 @@ def parse_temperaturnu(start_day, no_days):
 
             temp = float(parse_json[0]['stations']
                          [0]['data'][y]['temperatur'])
+            
+            print("Time: %s \t Temp: %s" % (time, temp))
 
-            sql = (
-                f"INSERT INTO {db_name}.temperature(time, temp) VALUES ('{time}', {temp}) ON DUPLICATE KEY UPDATE temp = {temp}")
-            # print(sql)
+            if temp != "nan":
+                sql = (
+                    f"INSERT INTO {db_name}.temperature(time, temp) VALUES ('{time}', {temp}) ON DUPLICATE KEY UPDATE temp = {temp}")
+                print(sql)
 
-            output = do_sql(sql)
-            # print(output)
+                output = do_sql(sql)
+                # print(output)
+            else:
+                print("No temp yet")
     else:
         print("No data yet")
 
@@ -117,7 +122,7 @@ def arguments(argv, day, number):
 
 if __name__ == "__main__":
     day = date.today() - timedelta(days=1)
-    number = 2
+    number = 3
 
     day, number = arguments(sys.argv[1:], day, number)
 

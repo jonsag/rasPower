@@ -59,7 +59,7 @@ def webpage(sql, day, number):
 
     print()
     print("var options = {")
-    print("title: 'Electricity price/hour & Temperature',")
+    print("title: 'Electricity price/hour & Temperature - historical',")
     # print("curveType: 'function',")
     print("legend: { position: 'bottom' }")
     print("};")
@@ -72,7 +72,7 @@ def webpage(sql, day, number):
     print("</head>")
     print("<body>")
 
-    print(sqlparse.format(sql, reindent=True, keyword_case='upper'))
+    print(sqlparse.format(sql, reindent=True))  # , keyword_case='upper'))
 
     print("<div id='curve_chart' style='width: 1200px; height: 700px'></div>")
     print("</body>")
@@ -127,7 +127,7 @@ def cgi_arguments(arguments, day, number):
 
 
 if __name__ == "__main__":
-    day = date.today() - timedelta(days=1)
+    day = date.today()
     number = 1
 
     if os.getenv("REQUEST_METHOD"):

@@ -46,7 +46,7 @@ def webpage(sql, day, number):
 
     print()
     print("var options = {")
-    print("title: 'Average temperature/hour',")
+    print("title: 'Weather forecast',")
     # print("curveType: 'function',")
     print("legend: { position: 'bottom' }")
     print("};")
@@ -59,7 +59,7 @@ def webpage(sql, day, number):
     print("</head>")
     print("<body>")
 
-    print(sqlparse.format(sql, reindent=True, keyword_case='upper'))
+    print(sqlparse.format(sql, reindent=True))  # , keyword_case='upper'))
 
     print("<div id='curve_chart' style='width: 1200px; height: 700px'></div>")
     print("</body>")

@@ -7,9 +7,10 @@ import configparser
 import os
 
 config = configparser.ConfigParser()  # define config file
-config.read(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'config.ini')) # read config file
+config.read(os.path.join(os.path.dirname(
+    os.path.realpath(__file__)), 'config.ini'))  # read config file
 
-#print(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'config.ini'))
+# print(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'config.ini'))
 
 # database
 db_host = config.get('db', 'db_host').strip()
@@ -92,21 +93,37 @@ openmeteo_latitude = float(config.get(
     'openmeteo', 'openmeteo_latitude').strip())
 openmeteo_longitude = float(config.get(
     'openmeteo', 'openmeteo_longitude').strip())
+
+openmeteo_hourly = (config.get(
+    'openmeteo', 'openmeteo_hourly').replace(" ", ""))
+openmeteo_daily = (config.get(
+    'openmeteo', 'openmeteo_daily').replace(" ", ""))
+
+openmeteo_ws_unit = (config.get(
+    'openmeteo', 'openmeteo_ws_unit').strip())
+
 openmeteo_timezone = config.get('openmeteo', 'openmeteo_timezone').strip()
 openmeteo_forecast_days = int(config.get(
     'openmeteo', 'openmeteo_forecast_days').strip())
 
+openmeteo_tilt = int(config.get(
+    'openmeteo', 'openmeteo_tilt').strip())
+openmeteo_azimuth = int(config.get(
+    'openmeteo', 'openmeteo_azimuth').strip())
 
-def build_openmeteo_url(latitude, longitude, timezone, days):
+
+def build_openmeteo_url(latitude, longitude, hourly, daily, ws_unit, timezone, days, tilt, azimuth):
 
     path = (config.get('openmeteo', 'openmeteo_api').strip() +
             "?latitude=" + str(latitude) +
             "&longitude=" + str(longitude) +
-            "&hourly=temperature_2m,wind_speed_10m" +
-            "&daily=sunrise,sunset" +
-            "&wind_speed_unit=ms" +
+            "&hourly=" + hourly +
+            "&daily=" + daily +
+            "&wind_speed_unit=" + ws_unit +
             "&timezone=" + timezone +
-            "&forecast_days=" + str(days))
+            "&forecast_days=" + str(days) +
+            "&tilt=" + str(tilt) +
+            "&azimuth=" + str(azimuth))
 
     # https://api.open-meteo.com/v1/forecast?
     # latitude=52.52&
@@ -116,5 +133,18 @@ def build_openmeteo_url(latitude, longitude, timezone, days):
     # wind_speed_unit=ms&
     # timezone=Europe%2FBerlin&
     # forecast_days=3
+
+    # https://api.open-meteo.com/v1/forecast?latitude=58.74&longitude=16.91&hourly=temperature_2m,rain,wind_speed_10m,global_tilted_irradiance_instant&daily=sunrise,sunset&wind_speed_unit=ms&timezone=Europe%2FBerlin&forecast_days=3&tilt=15&azimuth=5
+
+    # https://api.open-meteo.com/v1/forecast?
+    # latitude=58.74&
+    # longitude=16.91&
+    # hourly=temperature_2m,rain,wind_speed_10m,global_tilted_irradiance_instant&
+    # daily=sunrise,sunset
+    # &wind_speed_unit=ms&
+    # timezone=Europe%2FBerlin&
+    # forecast_days=3&
+    # tilt=15&
+    # azimuth=5
 
     return urlunsplit((openmeteo_SCHEME, openmeteo_NETLOC, path, "", ""))

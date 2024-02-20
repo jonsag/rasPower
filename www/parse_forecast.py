@@ -12,7 +12,11 @@ from datetime import date, timedelta, datetime
 
 
 from readConfig import (build_openmeteo_url,
-                        openmeteo_latitude, openmeteo_longitude, openmeteo_timezone, openmeteo_forecast_days,
+                        openmeteo_latitude, openmeteo_longitude,
+                        openmeteo_hourly, openmeteo_daily,
+                        openmeteo_ws_unit,
+                        openmeteo_timezone, openmeteo_forecast_days,
+                        openmeteo_tilt, openmeteo_azimuth,
                         db_name)
 
 from sql import do_sql
@@ -47,7 +51,7 @@ def parse_openmeteo_forecast(no_days):
         e_day = str(end_day.day)'''
 
     openmeteo_url = build_openmeteo_url(
-        openmeteo_latitude, openmeteo_longitude, openmeteo_timezone, openmeteo_forecast_days)
+        openmeteo_latitude, openmeteo_longitude, openmeteo_hourly, openmeteo_daily, openmeteo_ws_unit, openmeteo_timezone, openmeteo_forecast_days, openmeteo_tilt, openmeteo_azimuth)
     print("\n%s" % openmeteo_url)
 
     #    with request.urlopen(temperatur_url) as elpris_url:
@@ -75,15 +79,20 @@ def parse_openmeteo_forecast(no_days):
 
         for x in range(len(parse_json[0]['hourly']['time'])):
             time = parse_json[0]['hourly']['time'][x]
+
             temp = float(parse_json[0]['hourly']['temperature_2m'][x])
+            rain = float(parse_json[0]['hourly']['rain'][x])
             wind = float(parse_json[0]['hourly']['wind_speed_10m'][x])
+            gti_instant = float(
+                parse_json[0]['hourly']['global_tilted_irradiance_instant'][x])
 
             # print(
-            #    f'Time: {time} \t {time[:10]} {time[11:16]} \t Temp: {temp} \t Wind: {wind}')
+            #    f'Time: {time} \t {time[:10]} {time[11:16]} \t Temp: {temp} \t Rain: {rain} \t Wind: {wind} \t GTI Instant: {gti_instant} ')
 
             sql = (
-                f"INSERT INTO {db_name}.forecast(time, temp, wind) VALUES ('{time[:10]} {time[11:16]}', {temp}, {wind}) ON DUPLICATE KEY UPDATE temp = {temp}, wind = {wind}")
-            # print(sql)
+                f"INSERT INTO {db_name}.forecast(time, temp, rain, wind, gti_instant) VALUES ('{time[:10]} {time[11:16]}', {temp}, {rain}, {wind}, {gti_instant}) ON DUPLICATE KEY UPDATE temp = {temp}, rain = {wind}, wind = {wind}, gti_instant = {gti_instant}")
+            print(sql)
+
             output = do_sql(sql)
             # print(output)
 

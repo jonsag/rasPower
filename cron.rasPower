@@ -1,6 +1,6 @@
-# update forecast
+# update forecast once a day
 02 15 * * * www-data /var/www/rasPower/parse_forecast.py >> /dev/null 2>&1
-# update price
+# update price once a day
 03 15 * * * www-data /var/www/rasPower/parse_price.py >> /dev/null 2>&1
-# update temperatures
-04 15 * * * www-data /var/www/rasPower/parse_temp.py >> /dev/null 2>&1
+# update temperature history once an hour
+04 * * * * www-data /var/www/rasPower/parse_temp.py >> /dev/null 2>&1
