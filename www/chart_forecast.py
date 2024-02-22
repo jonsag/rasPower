@@ -9,15 +9,23 @@ import os
 
 from datetime import date, timedelta, datetime
 
+from readConfig import chart_width, chart_height
+
 
 def construct_sql(day, number):
     last = day + timedelta(days=int(number) - 1)
 
-    sql = ("SELECT time, AVG(temp) AS temp, AVG(wind) AS wind FROM forecast " +
+    sql = ("SELECT time, AVG(temp) AS temp, " +
+           "AVG(wind) AS wind, " +
+           "SUM(rain) AS rain, " +
+           "AVG(gti_instant) AS gti_instant " +
+           "FROM forecast " +
            "WHERE DATE_SUB(`time`,INTERVAL 1 HOUR) AND " +
            "DATE(time) >= '" + str(day) +
            "' AND DATE(time) <= '" + str(last) +
            "'GROUP BY DATE(time), HOUR(time)")
+
+    # print("\n%s\n" % sqlparse.format(sql, reindent=True))  # , keyword_case='upper'))
 
     return sql
 
@@ -34,34 +42,38 @@ def webpage(sql, day, number):
     print("google.charts.setOnLoadCallback(drawChart);")
     print()
     print("function drawChart() {")
-    print("var data = google.visualization.arrayToDataTable([")
+    print("     var data = google.visualization.arrayToDataTable([")
 
-    print("['Time', 'Temp', 'Wind'],")
+    print("     ['Time', 'Temp', 'Wind', 'Rain', 'GTI - Instant / 10'],")
 
     answer = do_sql(sql)
 
     for line in answer:
-        print(f'["{line[0]}", {line[1]}, {line[2]}],')
+        print(f'["{line[0]}", {line[1]}, {line[2]}, {line[3]}, {line[4] / 10}],')
     print("]);")
 
     print()
     print("var options = {")
     print("title: 'Weather forecast',")
-    # print("curveType: 'function',")
-    print("legend: { position: 'bottom' }")
+    print("width: %s," % chart_width)
+    print("height: %s," % chart_height)
     print("};")
+
     print()
+
     print("var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));")
     print()
     print("chart.draw(data, options);")
     print("}")
+
     print("</script>")
     print("</head>")
     print("<body>")
 
     print(sqlparse.format(sql, reindent=True))  # , keyword_case='upper'))
 
-    print("<div id='curve_chart' style='width: 1200px; height: 700px'></div>")
+    print("<div id='curve_chart' style='width: %spx; height: %spx'></div>" %
+          (chart_width, chart_height))
     print("</body>")
     print("</html>")
 

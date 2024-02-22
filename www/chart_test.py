@@ -9,17 +9,24 @@ import os
 
 from datetime import date, timedelta, datetime
 
-from readConfig import chart_width, chart_height
+from readConfig import (chart_width, chart_height)
 
 
 def construct_sql(day, number):
     last = day + timedelta(days=int(number) - 1)
 
-    sql = ("SELECT time, AVG(temp) AS temp FROM temperature " +
+    sql = ("SELECT time, " +
+           "AVG(temp) AS temp, " +
+           "AVG(wind) AS wind, " +
+           "SUM(rain) AS rain, " +
+           "AVG(gti_instant) AS gti_instant " +
+           "FROM forecast " +
            "WHERE DATE_SUB(`time`,INTERVAL 1 HOUR) AND " +
            "DATE(time) >= '" + str(day) +
            "' AND DATE(time) <= '" + str(last) +
            "'GROUP BY DATE(time), HOUR(time)")
+
+    # print("\n%s\n" % sqlparse.format(sql, reindent=True))  # , keyword_case='upper'))
 
     return sql
 
@@ -38,17 +45,17 @@ def webpage(sql, day, number):
     print("function drawChart() {")
     print("var data = google.visualization.arrayToDataTable([")
 
-    print("['Time', 'Temp'],")
+    print("['Time', 'Temp', 'Wind', 'Rain',  'GTI - Instant / 100'],")
 
     answer = do_sql(sql)
 
     for line in answer:
-        print(f'["{line[0]}", {line[1]}],')
+        print(f'["{line[0]}", {line[1]}, {line[2]}, {line[3]}, {line[4] / 100}],')
     print("]);")
 
     print()
     print("var options = {")
-    print("title: 'Historical temperature',")
+    print("title: 'Weather forecast',")
     print("width: %s," % chart_width)
     print("height: %s," % chart_height)
     print("};")
@@ -121,7 +128,7 @@ def cgi_arguments(arguments, day, number):
 
 if __name__ == "__main__":
     day = date.today()
-    number = 1
+    number = 2
 
     if os.getenv("REQUEST_METHOD"):
         # print("running as CGI")

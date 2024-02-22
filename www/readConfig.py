@@ -19,6 +19,7 @@ db_password = config.get('db', 'db_password').strip()
 db_name = config.get('db', 'db_name').strip()
 db_port = int(config.get('db', 'db_port').strip())
 
+# surcharges
 spot_surcharge = float(config.get('extra_fees', 'spot_surcharge').strip())
 certificate_fee = float(config.get('extra_fees', 'certificate_fee').strip())
 trading_fee = float(config.get('extra_fees', 'trading_fee').strip())
@@ -29,8 +30,13 @@ tax = float(config.get('extra_fees', 'tax').strip())
 
 VAT = float((int(config.get('extra_fees', 'VAT').strip())))
 
+# charts
+chart_width = int(config.get('charts', 'chart_width').strip())
+chart_height = int(config.get('charts', 'chart_height').strip())
 
-# elprisetjustnu.se
+#####################
+# elprisetjustnu.se #
+#####################
 elpris_SCHEME = os.environ.get(
     "API_SCHEME", config.get('elpris', 'elpris_scheme').strip())
 elpris_NETLOC = os.environ.get(
@@ -50,7 +56,9 @@ def build_elpris_url(year, month, day):
     return urlunsplit((elpris_SCHEME, elpris_NETLOC, path, "", ""))
 
 
-# temperatur.nu
+#################
+# temperatur.nu #
+#################
 temperatur_SCHEME = os.environ.get("API_SCHEME", config.get(
     'temperatur', 'temperatur_scheme').strip())
 temperatur_NETLOC = os.environ.get(
@@ -73,7 +81,9 @@ def build_temperatur_url(s_year, s_month, s_day, e_year, e_month, e_day):
     return urlunsplit((temperatur_SCHEME, temperatur_NETLOC, path, "", ""))
 
 
-# open-meteo.com
+##################
+# open-meteo.com #
+##################
 openmeteo_SCHEME = os.environ.get("API_SCHEME", config.get(
     'openmeteo', 'openmeteo_scheme').strip())
 openmeteo_NETLOC = os.environ.get(
@@ -125,15 +135,7 @@ def build_openmeteo_url(latitude, longitude, hourly, daily, ws_unit, timezone, d
             "&tilt=" + str(tilt) +
             "&azimuth=" + str(azimuth))
 
-    # https://api.open-meteo.com/v1/forecast?
-    # latitude=52.52&
-    # longitude=13.41&
-    # hourly=temperature_2m,wind_speed_10m&
-    # daily=sunrise,sunset&
-    # wind_speed_unit=ms&
-    # timezone=Europe%2FBerlin&
-    # forecast_days=3
-
+    # https://open-meteo.com/en/docs/#hourly=temperature_2m,rain,wind_speed_10m,global_tilted_irradiance_instant&daily=sunrise,sunset&wind_speed_unit=ms&timezone=Europe%2FBerlin&forecast_days=3&tilt=15&azimuth=5
     # https://api.open-meteo.com/v1/forecast?latitude=58.74&longitude=16.91&hourly=temperature_2m,rain,wind_speed_10m,global_tilted_irradiance_instant&daily=sunrise,sunset&wind_speed_unit=ms&timezone=Europe%2FBerlin&forecast_days=3&tilt=15&azimuth=5
 
     # https://api.open-meteo.com/v1/forecast?

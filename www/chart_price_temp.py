@@ -9,6 +9,8 @@ import os
 
 from datetime import date, timedelta, datetime
 
+from readConfig import chart_width, chart_height
+
 sql1 = ("SELECT * FROM surcharges ORDER BY time DESC LIMIT 1;")
 answer = do_sql(sql1)
 for line in answer:
@@ -59,22 +61,26 @@ def webpage(sql, day, number):
 
     print()
     print("var options = {")
-    print("title: 'Electricity price/hour & Temperature - historical',")
-    # print("curveType: 'function',")
-    print("legend: { position: 'bottom' }")
+    print("title: 'Electricity price / Historical temperature',")
+    print("width: %s," % chart_width)
+    print("height: %s," % chart_height)
     print("};")
+
     print()
+
     print("var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));")
     print()
     print("chart.draw(data, options);")
     print("}")
+
     print("</script>")
     print("</head>")
     print("<body>")
 
     print(sqlparse.format(sql, reindent=True))  # , keyword_case='upper'))
 
-    print("<div id='curve_chart' style='width: 1200px; height: 700px'></div>")
+    print("<div id='curve_chart' style='width: %spx; height: %spx'></div>" %
+          (chart_width, chart_height))
     print("</body>")
     print("</html>")
 

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # Encoding: UTF-8
 
-import sys
+import time
 
 from luma.core.interface.serial import spi
 from luma.core.render import canvas
@@ -10,7 +10,6 @@ from luma.lcd.device import st7735
 
 from math import *
 
-import time
 
 from numpy import interp
 

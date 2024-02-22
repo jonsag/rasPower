@@ -90,7 +90,7 @@ def parse_openmeteo_forecast(no_days):
             #    f'Time: {time} \t {time[:10]} {time[11:16]} \t Temp: {temp} \t Rain: {rain} \t Wind: {wind} \t GTI Instant: {gti_instant} ')
 
             sql = (
-                f"INSERT INTO {db_name}.forecast(time, temp, rain, wind, gti_instant) VALUES ('{time[:10]} {time[11:16]}', {temp}, {rain}, {wind}, {gti_instant}) ON DUPLICATE KEY UPDATE temp = {temp}, rain = {wind}, wind = {wind}, gti_instant = {gti_instant}")
+                f"INSERT INTO {db_name}.forecast(time, temp, rain, wind, gti_instant) VALUES ('{time[:10]} {time[11:16]}', {temp}, {rain}, {wind}, {gti_instant}) ON DUPLICATE KEY UPDATE temp = {temp}, rain = {rain}, wind = {wind}, gti_instant = {gti_instant}")
             print(sql)
 
             output = do_sql(sql)

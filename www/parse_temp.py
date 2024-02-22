@@ -72,13 +72,13 @@ def parse_temperaturnu(start_day, no_days):
 
             temp = float(parse_json[0]['stations']
                          [0]['data'][y]['temperatur'])
-            
-            print("Time: %s \t Temp: %s" % (time, temp))
+
+            # print("Time: %s \t Temp: %s" % (time, temp))
 
             if temp != "nan":
                 sql = (
                     f"INSERT INTO {db_name}.temperature(time, temp) VALUES ('{time}', {temp}) ON DUPLICATE KEY UPDATE temp = {temp}")
-                print(sql)
+                # print(sql)
 
                 output = do_sql(sql)
                 # print(output)

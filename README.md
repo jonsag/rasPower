@@ -39,7 +39,7 @@ Enable SPI
 #### Install Python modules
 
 >$ sudo apt install python3-dev python3-pip  
->$ pip install --break-system-packages luma.lcd numpy openmeteo_requests pandas pwinput pymysql requests-cache retry_requests rpi.gpio spidev sqlparse willow pyarrow  
+>$ pip install --break-system-packages luma.lcd numpy openmeteo_requests pandas pwinput pymysql requests-cache retry_requests rpi.gpio spidev sqlparse suncalc willow pyarrow  
 
 At the moment openmeteo_sdk doesn't install correctly  
 
