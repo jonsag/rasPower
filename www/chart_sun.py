@@ -6,12 +6,18 @@
 import sqlparse
 import os
 import suncalc
+import math
+
+from dateutil import tz
 
 from datetime import date, timedelta, datetime
 
 from sql import do_sql
 
-from readConfig import chart_width, chart_height
+from readConfig import chart_width, chart_height, openmeteo_latitude, openmeteo_longitude, openmeteo_timezone
+
+utc_zone = tz.gettz('UTC')
+local_zone = tz.gettz(openmeteo_timezone)
 
 
 def construct_sql(day, number):
@@ -44,12 +50,23 @@ def webpage(sql, day, number):
     print("function drawChart() {")
     print("     var data = google.visualization.arrayToDataTable([")
 
-    print("     ['Time', 'GTI - Instant'],")
+    print("     ['Time', 'GTI - Instant', 'Azimuth', 'Altitude'],")
 
     answer = do_sql(sql)
 
     for line in answer:
-        print(f'["{line[0]}", {line[1]}],')
+
+        local = line[0].replace(tzinfo=local_zone)
+        utc = local.astimezone(utc_zone)
+
+        pos = suncalc.get_position(
+            utc, lng=openmeteo_longitude, lat=openmeteo_latitude)
+
+        az = pos['azimuth']
+        alt = pos['altitude']
+
+        print(
+            f'["{line[0]}", {line[1]}, {abs(math.degrees(az))}, {math.degrees(alt)}],')
     print("]);")
 
     print()
