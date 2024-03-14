@@ -4,15 +4,15 @@
 
 from luma.core.interface.serial import spi
 from luma.core.render import canvas
-from luma.lcd.device import st7735
+from luma.lcd.device import st7735, pygame
 
 from math import *
 
 import time
 
 serial = spi(port=0, device=0, gpio_DC=23, gpio_RST=24)
-device = st7735(serial)
-
+#device = st7735(serial)
+device = pygame
 
 with canvas(device) as draw:
 

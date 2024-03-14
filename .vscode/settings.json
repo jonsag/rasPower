@@ -18,6 +18,7 @@
         "mysqlclose",
         "openmeteo",
         "posn",
+        "pytz",
         "Q'uit",
         "rtype",
         "spotpåslag",
