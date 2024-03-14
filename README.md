@@ -85,20 +85,40 @@ $ sudo apt install libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-d
 
 ### Hardware
 
+>$ sudo usermod -a -G i2c,spi,gpio www-data  
+
 #### ST7735 OLED Screen
 
-| Screen | Pin | GPIO   |
-| ------ | --- | ------ |
-| GND    | 6   | Ground |
-| VCC    | 2   | +5V    |
-| SCL    | 23  | 11     |
-| SDA    | 19  | 10     |
-| RES    | 18  | 24     |
-| DC     | 16  | 23     |
-| CS     | 24  | 8      |
-| BL     | 12  | 18     |
+| Screen | Pin | GPIO   |  
+| ------ | --- | ------ |  
+| GND    | 6   | Ground |  
+| VCC    | 2   | +5V    |  
+| SCL    | 23  | 11     |  
+| SDA    | 19  | 10     |  
+| RES    | 18  | 24     |  
+| DC     | 16  | 23     |  
+| CS     | 24  | 8      |  
+| BL     | 12  | 18     |  
 
->$  sudo usermod -a -G i2c,spi,gpio www-data  
+#### ILI9341 TFT Touch Screen
+
+| Screen        | Pin   | GPIO      |       |  
+| ------------- | ----- | --------- | ----- |  
+| VCC           | 1     | +3.3V     |       |  
+| GND           | 6     | GND       |       |  
+| CS            | 24    | 8         | CE0   |  
+| RESET         | 18    | 24        |       |  
+| DC            | 22    | 25        |       |  
+| DSI (MOSI)    | 19    | 10        | MOSI  |  
+| SCK           | 23    | 11        | SCLK  |  
+| LED           |       |           |       |  
+| SDO (MISO)    | NC    |           |       |  
+
+| T_CLK         |       |           |  
+| T_CS          |       |           |  
+| T_DIN         |       |           |  
+| T_DO          |       |           |  
+| T_IRQ         |       |           |  
 
 ## Misc
 
