@@ -2,67 +2,21 @@
 # -*- coding: utf-8 -*-
 # Encoding: UTF-8
 
-import sys
 import time
-# import subprocess
-import digitalio
-import board
-# import re
 
-from PIL import Image, ImageDraw, ImageFont
-
-from adafruit_rgb_display import ili9341
+from luma.core.interface.serial import spi
+from luma.core.render import canvas
+from luma.lcd.device import st7735
 
 from math import *
+
 
 from numpy import interp
 
 from sql import do_sql
 
-# suppress warning messages
-import warnings
-warnings.filterwarnings("ignore", category=DeprecationWarning)
-
-# configuration for CS and DC pins
-cs_pin = digitalio.DigitalInOut(board.CE0)
-dc_pin = digitalio.DigitalInOut(board.D25)
-reset_pin = digitalio.DigitalInOut(board.D24)
-
-# config for display baudrate (default max is 24mhz):
-BAUDRATE = 24000000
-
-# Setup SPI bus using hardware SPI:
-spi = board.SPI()
-
-# create the display
-disp = ili9341.ILI9341(
-    spi,
-    rotation=90,  # 2.2", 2.4", 2.8", 3.2" ILI9341
-    cs=cs_pin,
-    dc=dc_pin,
-    rst=reset_pin,
-    baudrate=BAUDRATE,
-)
-
-# Create blank image for drawing.
-# Make sure to create image with mode 'RGB' for full color.
-if disp.rotation % 180 == 90:
-    height = disp.width  # we swap height/width to rotate it to landscape!
-    width = disp.height
-else:
-    width = disp.width  # we swap height/width to rotate it to landscape!
-    height = disp.height
-
-image = Image.new("RGB", (width, height))
-
-# Get drawing object to draw on image.
-draw = ImageDraw.Draw(image)
-
-# Draw a black filled box to clear the image.
-draw.rectangle((0, 0, width, height), outline=0, fill=(0, 0, 0))
-disp.image(image)
-
-#sys.exit(0)
+serial = spi(port=0, device=0, gpio_DC=23, gpio_RST=24)
+device = st7735(serial)
 
 graph_width = 120
 graph_height = 100

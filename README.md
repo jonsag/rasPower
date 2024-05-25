@@ -89,36 +89,44 @@ $ sudo apt install libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-d
 
 #### ST7735 OLED Screen
 
-| Screen | Pin | GPIO   |  
-| ------ | --- | ------ |  
-| GND    | 6   | Ground |  
-| VCC    | 2   | +5V    |  
-| SCL    | 23  | 11     |  
-| SDA    | 19  | 10     |  
-| RES    | 18  | 24     |  
-| DC     | 16  | 23     |  
-| CS     | 24  | 8      |  
-| BL     | 12  | 18     |  
+| Screen | Pin | GPIO   |
+| ------ | --- | ------ |
+| GND    | 6   | Ground |
+| VCC    | 2   | +5V    |
+| SCL    | 23  | 11     |
+| SDA    | 19  | 10     |
+| RES    | 18  | 24     |
+| DC     | 16  | 23     |
+| CS     | 24  | 8      |
+| BL     | 12  | 18     |
 
 #### ILI9341 TFT Touch Screen
 
-| Screen        | Pin   | GPIO      |       |  
-| ------------- | ----- | --------- | ----- |  
-| VCC           | 1     | +3.3V     |       |  
-| GND           | 6     | GND       |       |  
-| CS            | 24    | 8         | CE0   |  
-| RESET         | 18    | 24        |       |  
-| DC            | 22    | 25        |       |  
-| DSI (MOSI)    | 19    | 10        | MOSI  |  
-| SCK           | 23    | 11        | SCLK  |  
-| LED           |       |           |       |  
-| SDO (MISO)    | NC    |           |       |  
+| Screen     | Pin | GPIO  |      |
+| ---------- | --- | ----- | ---- |
+| VCC        | 1   | +3.3V |      |
+| GND        | 6   | GND   |      |
+| CS         | 24  | 8     | CE0  |
+| RESET      | 18  | 24    |      |
+| DC         | 22  | 25    |      |
+| DSI (MOSI) | 19  | 10    | MOSI |
+| SCK        | 23  | 11    | SCLK |
+| LED        |     |       |      |
+| SDO (MISO) | NC  |       |      |
 
-| T_CLK         |       |           |  
-| T_CS          |       |           |  
-| T_DIN         |       |           |  
-| T_DO          |       |           |  
-| T_IRQ         |       |           |  
+| Touch | Pin | GPIO |
+| ----- | --- | ---- |
+| T_CLK |     |      |
+| T_CS  |     |      |
+| T_DIN |     |      |
+| T_DO  |     |      |
+| T_IRQ |     |      |
+
+>$ sudo pip install adafruit-circuitpython-rgb-display pillow  
+>$ sudo apt install fonts-dejavu libopenjp2-7 libtiff6 libatlas-base-dev  
+
+[https://github.com/ilbertt/XPT2046-Python](https://github.com/ilbertt/XPT2046-Python)
+[https://github.com/Georodin/xpt2046-touchcontroller-py](https://github.com/Georodin/xpt2046-touchcontroller-py)
 
 ## Misc
 
