@@ -102,17 +102,17 @@ $ sudo apt install libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-d
 
 #### ILI9341 TFT Touch Screen
 
-| Screen     | Pin | GPIO  |      |
-| ---------- | --- | ----- | ---- |
-| VCC        | 1   | +3.3V |      |
-| GND        | 6   | GND   |      |
-| CS         | 24  | 8     | CE0  |
-| RESET      | 18  | 24    |      |
-| DC         | 22  | 25    |      |
-| DSI (MOSI) | 19  | 10    | MOSI |
-| SCK        | 23  | 11    | SCLK |
-| LED        | 12  | 18    | BL   |
-| SDO (MISO) | NC  |       |      |
+| Screen          | Pin | GPIO  |      |
+| --------------- | --- | ----- | ---- |
+| VCC             | 1   | +3.3V |      |
+| GND             | 6   | GND   |      |
+| CS              | 24  | 8     | CE0  |
+| RESET           | 18  | 24    |      |
+| DC (A0)         | 22  | 25    |      |
+| DSI (MOSI, SDA) | 19  | 10    | MOSI |
+| SCK             | 23  | 11    | SCLK |
+| LED             | 12  | 18    | BL   |
+| SDO (MISO)      | NC  |       |      |
 
 | Touch | Pin | GPIO |
 | ----- | --- | ---- |
