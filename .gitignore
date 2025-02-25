@@ -1,3 +1,7 @@
 __pycache__/
 config.ini
 .cache.sqlite
+KiCAD/rasPower-ILI9341_TFT_Touch_Screen/rasPower-ILI9341_TFT_Touch_Screen-backups/
+fp-info-cache
+*.kicad_prl
+~*

@@ -111,7 +111,7 @@ $ sudo apt install libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-d
 | DC         | 22  | 25    |      |
 | DSI (MOSI) | 19  | 10    | MOSI |
 | SCK        | 23  | 11    | SCLK |
-| LED        |     |       |      |
+| LED        | 12  | 18    | BL   |
 | SDO (MISO) | NC  |       |      |
 
 | Touch | Pin | GPIO |
@@ -124,9 +124,6 @@ $ sudo apt install libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-d
 
 >$ sudo pip install adafruit-circuitpython-rgb-display pillow  
 >$ sudo apt install fonts-dejavu libopenjp2-7 libtiff6 libatlas-base-dev  
-
-[https://github.com/ilbertt/XPT2046-Python](https://github.com/ilbertt/XPT2046-Python)
-[https://github.com/Georodin/xpt2046-touchcontroller-py](https://github.com/Georodin/xpt2046-touchcontroller-py)
 
 ## Misc
 
@@ -163,3 +160,16 @@ Write error log to file
 >$ sudo touch /var/log/mariadb/error.log
 >$ sudo chown mysql:mysql -R /var/log/mariadb
 >MariaDB []> SET GLOBAL log_error /var/log/mysql/error.log;
+
+## Links
+
+### ILI9341
+
+* [https://github.com/ilbertt/XPT2046-Python](https://github.com/ilbertt/XPT2046-Python)
+* [https://github.com/Georodin/xpt2046-touchcontroller-py](https://github.com/Georodin/xpt2046-touchcontroller-py)
+* [https://github.com/adafruit/Adafruit_CircuitPython_RGB_Display](https://github.com/adafruit/Adafruit_CircuitPython_RGB_Display)
+* [https://learn.adafruit.com/adafruit-2-8-and-3-2-color-tft-touchscreen-breakout-v2/python-wiring-and-setup](https://learn.adafruit.com/adafruit-2-8-and-3-2-color-tft-touchscreen-breakout-v2/python-wiring-and-setup)  
+
+### Luma Core
+
+* [https://luma-lcd.readthedocs.io/en/latest/intro.html](https://luma-lcd.readthedocs.io/en/latest/intro.html)
