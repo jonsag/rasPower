@@ -1508,6 +1508,36 @@
 		)
 		(uuid "ffcc06f7-6912-4f68-ab0b-1bc7728f3d1b")
 	)
+	(label "RESET"
+		(at 76.2 105.41 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "48e02e58-d198-49c2-add2-34e5a206a429")
+	)
+	(label "DC"
+		(at 76.2 107.95 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "51b4133b-8c53-4063-9caf-a91227e7db37")
+	)
+	(label "CS"
+		(at 130.81 100.33 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "c41c854c-d82f-478e-8e8f-48ee82a1876b")
+	)
 	(symbol
 		(lib_id "Connector:Raspberry_Pi_2_3")
 		(at 104.14 95.25 0)

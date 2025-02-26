@@ -146,3 +146,7 @@ with canvas(device) as draw:
         #    break
 
 time.sleep(60)
+
+
+
+

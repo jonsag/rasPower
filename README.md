@@ -173,3 +173,11 @@ Write error log to file
 ### Luma Core
 
 * [https://luma-lcd.readthedocs.io/en/latest/intro.html](https://luma-lcd.readthedocs.io/en/latest/intro.html)
+
+## My shortcuts
+
+>$ rs-copy www/* jon@192.168.68.163:/var/www/rasPower  
+>$ ssh jon@192.168.68.163 "sudo chmod g+w /var/www/rasPower/ -R"  
+>$ ssh jon@192.168.68.163 "sudo usermod -a -G jon www-data"  
+
+>$ rs-copy www/* jon@192.168.68.163:/var/www/rasPower  && ssh jon@192.168.68.163 "sudo chmod g+w /var/www/rasPower/ -R" && ssh jon@192.168.68.163 "sudo usermod -a -G jon www-data"  
