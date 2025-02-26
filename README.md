@@ -39,7 +39,7 @@ Enable SPI
 
 #### Install Python modules
 
->$ sudo apt install python3-dev python3-pip python3-pymysql python3-sqlparse python3-dateutil python3-requests-cache python3-pandas python3-luma.core python3-luma.lcd python3-av python3-numpysane python3-rpi.gpio python3-spidev python3-willow python3-arrow  
+>$ sudo apt install python3-dev python3-pip python3-pymysql python3-sqlparse python3-dateutil python3-requests-cache python3-pandas python3-luma.core python3-luma.lcd python3-av python3-numpysane python3-rpi.gpio python3-spidev python3-willow python3-arrow python3-requests python3-psutil  
 >$ pip install --break-system-packages suncalc openmeteo_requests retry_requests digitalio adafruit_blinka adafruit-circuitpython-rgb-display pwinput  
 
 At the moment openmeteo_sdk doesn't install correctly  
