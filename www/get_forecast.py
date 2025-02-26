@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # Encoding: UTF-8
-
+>
 import openmeteo_requests
 
 import requests_cache

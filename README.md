@@ -34,12 +34,13 @@ Enable SPI
 #### Install Packages
 
 >$ sudo apt install apache2 git mariadb-server  
->$ sudo apt install libfreetype6-dev libjpeg-dev build-essential libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev libportmidi-dev
+>$ sudo apt install libfreetype6-dev libjpeg-dev build-essential libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev libportmidi-dev  
+>$ sudo apt-get install libavformat-dev libavcodec-dev libavdevice-dev libavutil-dev libswscale-dev libavresample-dev libavfilter-dev
 
 #### Install Python modules
 
->$ sudo apt install python3-dev python3-pip  
->$ pip install --break-system-packages luma.lcd numpy openmeteo_requests pandas pwinput pymysql requests-cache retry_requests rpi.gpio spidev sqlparse suncalc willow pyarrow  
+>$ sudo apt install python3-dev python3-pip python3-pymysql python3-sqlparse python3-dateutil python3-requests-cache python3-pandas python3-luma.core python3-luma.lcd python3-av python3-numpysane python3-rpi.gpio python3-spidev python3-willow python3-arrow  
+>$ pip install --break-system-packages suncalc openmeteo_requests retry_requests digitalio adafruit_blinka adafruit-circuitpython-rgb-display pwinput  
 
 At the moment openmeteo_sdk doesn't install correctly  
 
@@ -61,7 +62,7 @@ Select 'Y'
 Select 'Y'
 
     New password:
-Enter your new password twice
+Enter your new password twice  
 
     Remove anonymous users? [Y/n]
 Select 'Y'
@@ -87,7 +88,7 @@ $ sudo apt install libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-d
 
 >$ sudo usermod -a -G i2c,spi,gpio www-data  
 
-#### ST7735 OLED Screen
+#### ST7735 OLED Screensudo apt-get install -y libavformat-dev libavcodec-dev libavdevice-dev libavutil-dev libswscale-dev libavresample-dev libavfilter-dev
 
 | Screen | Pin | GPIO   |
 | ------ | --- | ------ |
@@ -176,8 +177,9 @@ Write error log to file
 
 ## My shortcuts
 
->$ rs-copy www/* jon@192.168.68.163:/var/www/rasPower  
+>$ rs-copy www/* jon@192.168.68.163:/var/www/rasPower/  
 >$ ssh jon@192.168.68.163 "sudo chmod g+w /var/www/rasPower/ -R"  
 >$ ssh jon@192.168.68.163 "sudo usermod -a -G jon www-data"  
 
+Everything above  
 >$ rs-copy www/* jon@192.168.68.163:/var/www/rasPower  && ssh jon@192.168.68.163 "sudo chmod g+w /var/www/rasPower/ -R" && ssh jon@192.168.68.163 "sudo usermod -a -G jon www-data"  

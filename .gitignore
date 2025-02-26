@@ -5,3 +5,5 @@ KiCAD/rasPower-ILI9341_TFT_Touch_Screen/rasPower-ILI9341_TFT_Touch_Screen-backup
 fp-info-cache
 *.kicad_prl
 ~*
+www/luma.examples
+www/lcd.py.old
