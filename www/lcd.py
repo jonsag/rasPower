@@ -4,15 +4,19 @@
 # See LICENSE.rst for details.
 # PYTHON_ARGCOMPLETE_OK
 
-import time
+import time, sys
 #import datetime
+from luma.core import cmdline, error
 from luma.core.render import canvas
+from luma.lcd.device import ili9341
+from luma.core.interface.serial import spi
+
 from numpy import interp
 from pathlib import Path
 from PIL import ImageFont
 
 from sql import do_sql
-from lcd_opts import get_device
+#from lcd_opts import get_device
 
 """import sys
 import time
@@ -20,7 +24,49 @@ import subprocess
 import digitalio
 import board"""
 
+def get_device(actual_args=None):
+    """
+    Create device from command-line arguments and return it.
+    """
+    
+    if actual_args is None:
+        actual_args = sys.argv[1:]
+
+    parser = cmdline.create_parser(description='luma.examples arguments')
+    args = parser.parse_args(actual_args)
+    print("args:")
+    for line in vars(args):
+        print(line)
+    print()
+
+
+    if args.config:
+        # load config from file
+        config = cmdline.load_config(args.config)
+
+        print("config:")
+        for line in config:
+            print(line)
+        print()
+        args = parser.parse_args(config + actual_args)
+        print("args:")
+        for line in vars(args):
+            print(line)
+        print()
+
+    # create device
+    try:
+        device = cmdline.create_device(args)
+        #print(display_settings(device, args))
+        return device
+
+    except error.Error as e:
+        parser.error(e)
+        return None
+
 device = get_device()
+#serial = spi(port=0, device=0, gpio_DC=25, gpio_RST=24, bus_speed_hz=52000000)
+#device = ili9341(serial, width=320, height=240, rotate=2)
 
 graph_size = 0.8
 

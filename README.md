@@ -166,16 +166,17 @@ Write error log to file
 
 ### ILI9341
 
-* [https://github.com/ilbertt/XPT2046-Python](https://github.com/ilbertt/XPT2046-Python)
-* [https://github.com/Georodin/xpt2046-touchcontroller-py](https://github.com/Georodin/xpt2046-touchcontroller-py)
-* [https://github.com/adafruit/Adafruit_CircuitPython_RGB_Display](https://github.com/adafruit/Adafruit_CircuitPython_RGB_Display)
-* [https://learn.adafruit.com/adafruit-2-8-and-3-2-color-tft-touchscreen-breakout-v2/python-wiring-and-setup](https://learn.adafruit.com/adafruit-2-8-and-3-2-color-tft-touchscreen-breakout-v2/python-wiring-and-setup)  
+* [XPT2046-Python @ github](https://github.com/ilbertt/XPT2046-Python)
+* [xpt2046-touchcontroller-py @ github](https://github.com/Georodin/xpt2046-touchcontroller-py)
+* [Adafruit_CircuitPython_RGB_Display @ github](https://github.com/adafruit/Adafruit_CircuitPython_RGB_Display)
+* [Adafruit 2.8" and 3.2" Color TFT Touchscreen Breakout v2](https://learn.adafruit.com/adafruit-2-8-and-3-2-color-tft-touchscreen-breakout-v2/python-wiring-and-setup)  
 
 ### Luma Core
 
-* [https://luma-lcd.readthedocs.io/en/latest/intro.html](https://luma-lcd.readthedocs.io/en/latest/intro.html)
+* [Luma documentation](https://luma-lcd.readthedocs.io/en/latest/intro.html)
+* [luma.core @ github](https://github.com/rm-hull/luma.core)
 
-## My shortcuts
+## My cheatsheet
 
 >$ rs-copy www/* jon@192.168.68.163:/var/www/rasPower/  
 >$ ssh jon@192.168.68.163 "sudo chmod g+w /var/www/rasPower/ -R"  
@@ -183,3 +184,6 @@ Write error log to file
 
 Everything above  
 >$ rs-copy www/* jon@192.168.68.163:/var/www/rasPower  && ssh jon@192.168.68.163 "sudo chmod g+w /var/www/rasPower/ -R" && ssh jon@192.168.68.163 "sudo usermod -a -G jon www-data"  
+
+Reverse  
+>$ rs-copy jon@192.168.68.163:/var/www/rasPower/* www/
