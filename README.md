@@ -187,3 +187,6 @@ Everything above
 
 Reverse  
 >$ rs-copy jon@192.168.68.163:/var/www/rasPower/* www/
+
+MySQL  
+>$ mysql -u elpriset -pjustnu rasPower

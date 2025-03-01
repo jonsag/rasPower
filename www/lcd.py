@@ -1,12 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# Copyright (c) 2014-2023 Richard Hull and contributors
-# See LICENSE.rst for details.
-# PYTHON_ARGCOMPLETE_OK
 
-import time, sys
-#import datetime
-from luma.core import cmdline, error
+import time, sys, math
+
+# import datetime
+# from luma.core import cmdline, error
 from luma.core.render import canvas
 from luma.lcd.device import ili9341
 from luma.core.interface.serial import spi
@@ -15,58 +13,36 @@ from numpy import interp
 from pathlib import Path
 from PIL import ImageFont
 
+from readConfig import screen_type
+
+if screen_type == "ili9341":
+    print(screen_type)
+    from readConfig import (
+        ili9341_port as port,
+        ili9341_device as device,
+        ili9341_gpio_DC as gpio_DC,
+        ili9341_gpio_RST as gpio_RST,
+        ili9341_bus_speed_hz as bus_speed_hz,
+        ili9341_gpio_LIGHT as gpio_LIGHT,
+        ili9341_width as width,
+        ili9341_height as height,
+        ili9341_rotate as rotate,
+        ili9341_active_low as active_low,
+    )
+
 from sql import do_sql
-#from lcd_opts import get_device
 
-"""import sys
-import time
-import subprocess
-import digitalio
-import board"""
-
-def get_device(actual_args=None):
-    """
-    Create device from command-line arguments and return it.
-    """
-    
-    if actual_args is None:
-        actual_args = sys.argv[1:]
-
-    parser = cmdline.create_parser(description='luma.examples arguments')
-    args = parser.parse_args(actual_args)
-    print("args:")
-    for line in vars(args):
-        print(line)
-    print()
-
-
-    if args.config:
-        # load config from file
-        config = cmdline.load_config(args.config)
-
-        print("config:")
-        for line in config:
-            print(line)
-        print()
-        args = parser.parse_args(config + actual_args)
-        print("args:")
-        for line in vars(args):
-            print(line)
-        print()
-
-    # create device
-    try:
-        device = cmdline.create_device(args)
-        #print(display_settings(device, args))
-        return device
-
-    except error.Error as e:
-        parser.error(e)
-        return None
-
-device = get_device()
-#serial = spi(port=0, device=0, gpio_DC=25, gpio_RST=24, bus_speed_hz=52000000)
-#device = ili9341(serial, width=320, height=240, rotate=2)
+serial = spi(
+    port=port,
+    device=device,
+    gpio_DC=gpio_DC,
+    gpio_RST=gpio_RST,
+    bus_speed_hz=bus_speed_hz,
+    gpio_LIGHT=gpio_LIGHT,
+)
+device = ili9341(
+    serial, width=width, height=height, rotate=rotate, active_low=active_low
+)
 
 graph_size = 0.8
 
@@ -75,11 +51,19 @@ graph_height = device.height * graph_size
 graph_x_offset = 40
 graph_y_offset = 10
 
-graph_y_min = -0.1
-graph_y_max = 2.5
-
 hours_back = 2
 hours_future = 12
+
+graph_y_min = -0.1
+
+sql = f"SELECT MAX(SEK_per_kWh) FROM price WHERE hour > NOW() - INTERVAL {hours_back} HOUR AND hour < NOW() + INTERVAL {hours_future + 1} HOUR"
+answer = do_sql(sql)
+# print(answer[0][0])
+y_max = round(math.ceil(answer[0][0] * 2)) / 2
+# test = 1.1
+# y_max = round(math.ceil(test * 2)) / 2
+# print(y_max)
+graph_y_max = y_max
 
 graph_frame_colour = "white"
 text_colour = "white"
@@ -98,7 +82,7 @@ graph_font_size = 15
 graph_font = ImageFont.truetype(graph_font_path, graph_font_size)
 
 graph_y_scale_x_offset = 5
-graph_y_scale_no_of_marks = 4
+graph_y_scale_no_of_marks = math.ceil(graph_y_max * 2)
 
 
 def scale_y(y):
@@ -116,8 +100,10 @@ def graph(device, draw):
     # frame around graph
     draw.rectangle(
         (
-            graph_x_offset, graph_y_offset,
-            graph_x_offset + graph_width, graph_y_offset + graph_height,
+            graph_x_offset,
+            graph_y_offset,
+            graph_x_offset + graph_width,
+            graph_y_offset + graph_height,
         ),
         # , fill=graph_background_colour)
         outline=graph_frame_colour,
@@ -127,7 +113,9 @@ def graph(device, draw):
         draw.text(
             (
                 graph_y_scale_x_offset,
-                graph_y_offset - graph_font_size / 2 + i * graph_height / graph_y_scale_no_of_marks,
+                graph_y_offset
+                - graph_font_size / 2
+                + i * graph_height / graph_y_scale_no_of_marks,
             ),
             str(round(graph_y_max - graph_y_max / graph_y_scale_no_of_marks * i, 1)),
             font=graph_font,
@@ -147,19 +135,26 @@ def graph(device, draw):
             # Horizontal
             draw.line(
                 (
-                    scale_x(i), scale_y(float(line[0])),
-                    scale_x(i + 1), scale_y(float(line[0])),
+                    scale_x(i),
+                    scale_y(float(line[0])),
+                    scale_x(i + 1),
+                    scale_y(float(line[0])),
                 ),
                 fill=graph_line_colour,
             )
 
             print(
                 "- ",
-                round(scale_x(i)), ", ",
-                round(scale_y(float(line[0]))), "\t-->\t",
-                round(scale_x(i + 1)), ", ",
-                round(scale_y(float(line[0]))), "\t-",
-                line[0], "kr\t",
+                round(scale_x(i)),
+                ", ",
+                round(scale_y(float(line[0]))),
+                "\t-->\t",
+                round(scale_x(i + 1)),
+                ", ",
+                round(scale_y(float(line[0]))),
+                "\t-",
+                line[0],
+                "kr\t",
                 line[1],
             )
 
@@ -167,54 +162,73 @@ def graph(device, draw):
             # Vertical
             draw.line(
                 (
-                    scale_x(i), scale_y(float(old_line)),
-                    scale_x(i), scale_y(float(line[0])),
+                    scale_x(i),
+                    scale_y(float(old_line)),
+                    scale_x(i),
+                    scale_y(float(line[0])),
                 ),
                 fill=graph_line_colour,
             )
 
             print(
                 "| ",
-                round(scale_x(i)), ", ",
-                round(scale_y(float(old_line))), "\t-->\t",
-                round(scale_x(i)), ", ",
-                round(scale_y(float(line[0]))), "\t|",
+                round(scale_x(i)),
+                ", ",
+                round(scale_y(float(old_line))),
+                "\t-->\t",
+                round(scale_x(i)),
+                ", ",
+                round(scale_y(float(line[0]))),
+                "\t|",
             )
 
             # Horizontal
             draw.line(
                 (
-                    scale_x(i), scale_y(float(line[0])),
-                    scale_x(i + 1), scale_y(float(line[0])),
+                    scale_x(i),
+                    scale_y(float(line[0])),
+                    scale_x(i + 1),
+                    scale_y(float(line[0])),
                 ),
                 fill=graph_line_colour_now,
             )
 
             print(
                 "- ",
-                round(scale_x(i)), ", ",
-                round(scale_y(float(line[0]))), "\t-->\t",
-                round(scale_x(i + 1)), ", ",
-                round(scale_y(float(line[0]))), "\t-",
-                line[0], "kr\t",
+                round(scale_x(i)),
+                ", ",
+                round(scale_y(float(line[0]))),
+                "\t-->\t",
+                round(scale_x(i + 1)),
+                ", ",
+                round(scale_y(float(line[0]))),
+                "\t-",
+                line[0],
+                "kr\t",
                 line[1],
             )
         else:
             # Vertical
             draw.line(
                 (
-                    scale_x(i), scale_y(float(old_line)),
-                    scale_x(i), scale_y(float(line[0])),
+                    scale_x(i),
+                    scale_y(float(old_line)),
+                    scale_x(i),
+                    scale_y(float(line[0])),
                 ),
                 fill=graph_line_colour,
             )
 
             print(
                 "| ",
-                round(scale_x(i)), ", ",
-                round(scale_y(float(old_line))), "\t-->\t",
-                round(scale_x(i)), ", ",
-                round(scale_y(float(line[0]))), "\t|",
+                round(scale_x(i)),
+                ", ",
+                round(scale_y(float(old_line))),
+                "\t-->\t",
+                round(scale_x(i)),
+                ", ",
+                round(scale_y(float(line[0]))),
+                "\t|",
             )
 
             # Horizontal
@@ -253,9 +267,29 @@ def main():
     with canvas(device) as draw:
         graph(device, draw)
 
+    # while True:
+    #    time.sleep(1)
+
     for i in range(30):
         print(30 - i)
-        time.sleep(1)
+        if i >= 15:
+            device.clear()
+        if i / 2 == round(i / 2, 0):
+            device.backlight(False)
+            time.sleep(0.2)
+        else:
+            device.backlight(True)
+            time.sleep(0.8)
+
+    """for i in range(30):
+        print(30 - i)
+        if i >= 15:
+            device.clear()
+        if i/2 == round(i/2, 0):
+            device.hide()
+        else:
+            device.show()
+        time.sleep(1)"""
 
     """print("Testing display ON/OFF...")
     for i in range(5):

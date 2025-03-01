@@ -34,6 +34,21 @@ VAT = float((int(config.get('extra_fees', 'VAT').strip())))
 chart_width = int(config.get('charts', 'chart_width').strip())
 chart_height = int(config.get('charts', 'chart_height').strip())
 
+# screen
+screen_type = config.get('screen', 'type')
+
+# ili9341
+ili9341_port = int(config.get('ili9341', 'port').strip())
+ili9341_device = int(config.get('ili9341', 'device').strip())
+ili9341_gpio_DC = int(config.get('ili9341', 'gpio_DC').strip())
+ili9341_gpio_RST = int(config.get('ili9341', 'gpio_RST').strip())
+ili9341_bus_speed_hz = int(config.get('ili9341', 'bus_speed_Hz').strip())
+ili9341_gpio_LIGHT = int(config.get('ili9341', 'gpio_LIGHT').strip())
+ili9341_width = int(config.get('ili9341', 'width').strip())
+ili9341_height = int(config.get('ili9341', 'height').strip())
+ili9341_rotate = int(config.get('ili9341', 'rotate').strip())
+ili9341_active_low = int(config.get('ili9341', 'active_low').strip())
+
 #####################
 # elprisetjustnu.se #
 #####################
@@ -45,10 +60,10 @@ elpris_NETLOC = os.environ.get(
 
 def build_elpris_url(year, month, day):
 
-    path = (config.get('elpris', 'elpris_api').strip() +
-            "/" + year +
-            "/" + month + "-" + day +
-            "_" + config.get('elpris', 'area').strip() +
+    path = (config.get('elpris', 'elpris_api').strip() + 
+            "/" + year + 
+            "/" + month + "-" + day + 
+            "_" + config.get('elpris', 'area').strip() + 
             "." + config.get('elpris', 'type').strip())
 
     # https://www.elprisetjustnu.se/api/v1/prices/2024/02-13_SE3.json
@@ -67,13 +82,13 @@ temperatur_NETLOC = os.environ.get(
 
 def build_temperatur_url(s_year, s_month, s_day, e_year, e_month, e_day):
 
-    path = (config.get('temperatur', 'temperatur_api').strip() +
-            "?p=" + config.get('temperatur', 'temperature_location').strip() +
-            "&cli=" + config.get('temperatur', 'temperature_client').strip() +
-            "&data" +
-            "&start=" + s_year + "-" + s_month + "-" + s_day +
-            "-00-00" +
-            "&end=" + e_year + "-" + e_month + "-" + e_day +
+    path = (config.get('temperatur', 'temperatur_api').strip() + 
+            "?p=" + config.get('temperatur', 'temperature_location').strip() + 
+            "&cli=" + config.get('temperatur', 'temperature_client').strip() + 
+            "&data" + 
+            "&start=" + s_year + "-" + s_month + "-" + s_day + 
+            "-00-00" + 
+            "&end=" + e_year + "-" + e_month + "-" + e_day + 
             "-00-00")
 
     # https://api.temperatur.nu/tnu_1.17.php?p=enstaberga&cli=rasPower&data&start=2024-01-01-00-00&end=2024-01-02-00-00
@@ -124,15 +139,15 @@ openmeteo_azimuth = int(config.get(
 
 def build_openmeteo_url(latitude, longitude, hourly, daily, ws_unit, timezone, days, tilt, azimuth):
 
-    path = (config.get('openmeteo', 'openmeteo_api').strip() +
-            "?latitude=" + str(latitude) +
-            "&longitude=" + str(longitude) +
-            "&hourly=" + hourly +
-            "&daily=" + daily +
-            "&wind_speed_unit=" + ws_unit +
-            "&timezone=" + timezone +
-            "&forecast_days=" + str(days) +
-            "&tilt=" + str(tilt) +
+    path = (config.get('openmeteo', 'openmeteo_api').strip() + 
+            "?latitude=" + str(latitude) + 
+            "&longitude=" + str(longitude) + 
+            "&hourly=" + hourly + 
+            "&daily=" + daily + 
+            "&wind_speed_unit=" + ws_unit + 
+            "&timezone=" + timezone + 
+            "&forecast_days=" + str(days) + 
+            "&tilt=" + str(tilt) + 
             "&azimuth=" + str(azimuth))
 
     # https://open-meteo.com/en/docs/#hourly=temperature_2m,rain,wind_speed_10m,global_tilted_irradiance_instant&daily=sunrise,sunset&wind_speed_unit=ms&timezone=Europe%2FBerlin&forecast_days=3&tilt=15&azimuth=5

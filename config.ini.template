@@ -31,3 +31,19 @@ VAT = 25
 # (56,88 + 7 + 1,4 + 4,67) * 1,25
 # elpris + påslag + elcertifikat + handelsavgift + moms
 # price + spot_surcharge + certificate_fee + trading_fee
+
+[screen]
+type = ili9341
+
+[ili9341]
+port=0
+device=0
+gpio_DC=25
+gpio_RST=24
+bus_speed_hz=52000000
+gpio_LIGHT=18
+
+width=320
+height=240
+rotate=2
+active_low=0

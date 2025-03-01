@@ -1,4 +1,9 @@
 {
+    "python.autoComplete.extraPaths": ["./www", "./", "~/Documents/CodeWorkspace/rasPower", "~/Documents/CodeWorkspace/rasPower/www"],
+    "python.analysis.extraPaths": ["./, ./www", "./", "~/Documents/CodeWorkspace/rasPower", "~/Documents/CodeWorkspace/rasPower/www"],
+    "python.analysis.diagnosticSeverityOverrides": {
+    "reportMissingImports": "none",
+    },
     "cSpell.words": [
         "blinka",
         "cheatsheet",
