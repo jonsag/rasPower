@@ -51,7 +51,7 @@ graph_x_offset = 40
 graph_y_offset = 10
 
 hours_back = 2
-hours_future = 24
+hours_future = 12
 
 # graph_y_min = -0.1
 
@@ -107,6 +107,12 @@ def scale_x(x):
 
 
 def draw_horizontal(draw, i, line):
+
+    if i == hours_back - 1:
+        line_colour = "green"
+    else:
+        line_colour = graph_line_colour
+
     draw.line(
         (
             scale_x(i),
@@ -114,7 +120,7 @@ def draw_horizontal(draw, i, line):
             scale_x(i + 1),
             scale_y(float(line[0])),
         ),
-        fill=graph_line_colour,
+        fill=line_colour,
     )
 
     print(
