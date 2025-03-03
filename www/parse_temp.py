@@ -11,8 +11,7 @@ import os
 from datetime import date, timedelta, datetime
 
 
-from readConfig import (build_temperatur_url,
-                        db_name)
+from readConfig import build_temperatur_url, db_name
 
 from sql import do_sql
 
@@ -20,7 +19,8 @@ from sql import do_sql
 def parse_temperaturnu(start_day, no_days):
 
     print(
-        f'\nParsing temperature history for {start_day} - {start_day + timedelta(days = no_days - 1)} ...')
+        f"\nParsing temperature history for {start_day} - {start_day + timedelta(days = no_days - 1)} ..."
+    )
 
     s_year = str(start_day.year)
     if start_day.month < 10:
@@ -45,7 +45,8 @@ def parse_temperaturnu(start_day, no_days):
         e_day = str(end_day.day)
 
     temperatur_url = build_temperatur_url(
-        s_year, s_month, s_day, e_year, e_month, e_day)
+        s_year, s_month, s_day, e_year, e_month, e_day
+    )
     print("\n%s" % temperatur_url)
 
     #    with request.urlopen(temperatur_url) as elpris_url:
@@ -67,17 +68,15 @@ def parse_temperaturnu(start_day, no_days):
         # parse_json = json.loads(json.dumps(data))
         parse_json = json.loads(data)
 
-        for y in range(len(parse_json[0]['stations'][0]['data'])):
-            time = parse_json[0]['stations'][0]['data'][y]['datetime']
+        for y in range(len(parse_json[0]["stations"][0]["data"])):
+            time = parse_json[0]["stations"][0]["data"][y]["datetime"]
 
-            temp = float(parse_json[0]['stations']
-                         [0]['data'][y]['temperatur'])
+            temp = float(parse_json[0]["stations"][0]["data"][y]["temperatur"])
 
             # print("Time: %s \t Temp: %s" % (time, temp))
 
             if temp != "nan":
-                sql = (
-                    f"INSERT INTO {db_name}.temperature(time, temp) VALUES ('{time}', {temp}) ON DUPLICATE KEY UPDATE temp = {temp}")
+                sql = f"INSERT INTO {db_name}.temperature(time, temp) VALUES ('{time}', {temp}) ON DUPLICATE KEY UPDATE temp = {temp}"
                 # print(sql)
 
                 output = do_sql(sql)
@@ -96,21 +95,18 @@ def parse_temperaturnu(start_day, no_days):
 def arguments(argv, day, number):
 
     try:
-        opts, args = getopt.getopt(argv,
-                                   "hd:n:",
-                                   ["help", "day=", "number="])
+        opts, args = getopt.getopt(argv, "hd:n:", ["help", "day=", "number="])
     except getopt.GetoptError:
-        print('Error\ntest.py -d <date> -n <number of days>')
+        print("Error\ntest.py -d <date> -n <number of days>")
         sys.exit(2)
 
     for opt, arg in opts:
-        if opt == '-h':
-            print(
-                f'{os.path.basename(sys.argv[0])} -d <date> -n <number of days>')
+        if opt == "-h":
+            print(f"{os.path.basename(sys.argv[0])} -d <date> -n <number of days>")
             sys.exit()
         elif opt in ("-d", "--day"):
             try:
-                day = datetime.strptime(arg, '%Y-%m-%d').date()
+                day = datetime.strptime(arg, "%Y-%m-%d").date()
             except:
                 print("Error\nEnter date in the format YYYY-MM-DD")
                 sys.exit(3)

@@ -11,11 +11,13 @@ from readConfig import db_host, db_user, db_password, db_name, db_port
 def mysqlconnect(db_host, db_user, db_password, db_name, db_port):
     # To connect MySQL database
     try:
-        conn = pymysql.connect(host=db_host,
-                               user=db_user,
-                               password=db_password,
-                               database=db_name,
-                               port=db_port)
+        conn = pymysql.connect(
+            host=db_host,
+            user=db_user,
+            password=db_password,
+            database=db_name,
+            port=db_port,
+        )
 
     except pymysql.Error as e:
         print("Could not connect %d: %s" % (e.args[0], e.args[1]))
@@ -36,7 +38,7 @@ def run_sql(cur, sql):
     # else:
     #    print("OK\nAffected rows = {}".format(cur.rowcount))
 
-    result = (cur.fetchall())
+    result = cur.fetchall()
 
     return result
 
@@ -62,6 +64,6 @@ if __name__ == "__main__":
     sql = "select @@version"
     output = run_sql(cur, sql)
 
-    print(f'\nConnected to db {output[0][0]}')
+    print(f"\nConnected to db {output[0][0]}")
 
     mysqlclose(conn)

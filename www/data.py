@@ -11,11 +11,11 @@ print("</head><body>")
 
 print("Hello World!")
 
-sql = ("SELECT hour, SEK_per_kWh FROM price")
+sql = "SELECT hour, SEK_per_kWh FROM price"
 
 answer = do_sql(sql)
 
 for line in answer:
-    print(f'{line[0]}, {line[1]}')
+    print(f"{line[0]}, {line[1]}")
 
 print("</body></html>")

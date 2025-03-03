@@ -11,8 +11,7 @@ import os
 from datetime import date, timedelta, datetime
 
 
-from readConfig import (build_elpris_url,
-                        db_name)
+from readConfig import build_elpris_url, db_name
 
 from sql import do_sql
 
@@ -20,7 +19,8 @@ from sql import do_sql
 def parse_elprisetjustnu(start_day, no_days):
 
     print(
-        f'\nParsing prices for {start_day} - {start_day + timedelta(days = no_days - 1)} ...')
+        f"\nParsing prices for {start_day} - {start_day + timedelta(days = no_days - 1)} ..."
+    )
 
     for x in range(no_days):
         when = start_day + timedelta(days=x)
@@ -40,9 +40,9 @@ def parse_elprisetjustnu(start_day, no_days):
         elpris_url = build_elpris_url(year, month, day)
         print("\n%s" % elpris_url)
 
-    #    with request.urlopen(elpris_url) as elpris_url:
-    #        data = json.load(elpris_url)
-    #        print(data)
+        #    with request.urlopen(elpris_url) as elpris_url:
+        #        data = json.load(elpris_url)
+        #        print(data)
 
         response_API = requests.get(elpris_url)
         data = response_API.text
@@ -56,12 +56,11 @@ def parse_elprisetjustnu(start_day, no_days):
             parse_json = json.loads(data)
 
             for y in range(24):
-                hour = parse_json[y]['time_start']
+                hour = parse_json[y]["time_start"]
 
-                price_SEK = float(parse_json[y]['SEK_per_kWh'])
+                price_SEK = float(parse_json[y]["SEK_per_kWh"])
 
-                sql = (
-                    f"INSERT INTO {db_name}.price(hour, SEK_per_kWh) VALUES ('{hour[:10]} {hour[11:16]}', {price_SEK}) ON DUPLICATE KEY UPDATE SEK_per_kWh = {price_SEK}")
+                sql = f"INSERT INTO {db_name}.price(hour, SEK_per_kWh) VALUES ('{hour[:10]} {hour[11:16]}', {price_SEK}) ON DUPLICATE KEY UPDATE SEK_per_kWh = {price_SEK}"
                 # print(sql)
                 output = do_sql(sql)
                 # print(output)
@@ -77,23 +76,20 @@ def parse_elprisetjustnu(start_day, no_days):
 def arguments(argv, day, number):
 
     try:
-        opts, args = getopt.getopt(argv,
-                                   "hd:n:",
-                                   ["help", "day=", "number="])
+        opts, args = getopt.getopt(argv, "hd:n:", ["help", "day=", "number="])
     except getopt.GetoptError:
-        print('Error\ntest.py -d <date> -n <number of days>')
+        print("Error\ntest.py -d <date> -n <number of days>")
         sys.exit(2)
 
     # print(opts)
 
     for opt, arg in opts:
-        if opt == '-h':
-            print(
-                f'{os.path.basename(sys.argv[0])} -d <date> -n <number of days>')
+        if opt == "-h":
+            print(f"{os.path.basename(sys.argv[0])} -d <date> -n <number of days>")
             sys.exit()
         elif opt in ("-d", "--day"):
             try:
-                day = datetime.strptime(arg, '%Y-%m-%d').date()
+                day = datetime.strptime(arg, "%Y-%m-%d").date()
             except:
                 print("Error\nEnter date in the format YYYY-MM-DD")
                 sys.exit(3)
