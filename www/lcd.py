@@ -51,22 +51,22 @@ graph_x_offset = 40
 graph_y_offset = 10
 
 hours_back = 2
-hours_future = 12
+hours_future = 24
 
-#graph_y_min = -0.1
+# graph_y_min = -0.1
 
 sql = f"SELECT MAX(SEK_per_kWh), MIN(SEK_per_kWh) FROM price WHERE hour > NOW() - INTERVAL {hours_back} HOUR AND hour < NOW() + INTERVAL {hours_future + 1} HOUR"
 answer = do_sql(sql)
-y_max = round(math.ceil(answer[0][0] * 2)) / 2
-graph_y_max = y_max
-y_min = round(math.floor(answer[0][1] * 2)) / 2
-graph_y_min = y_min
+y_max = answer[0][0]
+graph_y_max = round(math.ceil(y_max * 2)) / 2
+y_min = answer[0][1]
+graph_y_min = round(math.floor(y_min * 2)) / 2
 
 if graph_y_min >= 0.5:
     graph_y_min = 0
 
-print("Highest: \t%s, \tY-max: \t%s" % (answer[0][0], y_max))
-print("Lowest: \t%s, \tY-min: \t%s" % (answer[0][1], y_min))
+print("Highest: \t%s, \tY-max: \t%s" % (y_max, graph_y_max))
+print("Lowest: \t%s, \tY-min: \t%s" % (y_min, graph_y_min))
 print()
 
 graph_frame_colour = "white"
@@ -160,16 +160,33 @@ def draw_vertical(draw, i, old_line, line):
 
 
 def show_price(draw, i, line):
+    if is_even(i):
+        y_pos = 1.5
+    else:
+        y_pos = -0.3
+
+    if line[0] * 100 >= 10:
+        x_pos = 0
+    else:
+        x_pos = 5
+
     draw.text(
         (
-            scale_x(i) + 5,  # + (scale_x(i + 1) - scale_x(i)) / 2,
-            scale_y(float(line[0])) - price_font_size * 1.5,
+            scale_x(i) + x_pos,  # + (scale_x(i + 1) - scale_x(i)) / 2,
+            scale_y(float(line[0])) - price_font_size * y_pos,
         ),
         str(round(line[0] * 100)),
         # str(scale_y(float(line[0] - 10))),
         font=price_font,
         fill=text_colour,
     )
+
+
+def is_even(i):
+    if i / 2 == int(i / 2):
+        return True
+    else:
+        return False
 
 
 def graph(device, draw):
@@ -184,7 +201,7 @@ def graph(device, draw):
         # , fill=graph_background_colour)
         outline=graph_frame_colour,
     )
-    
+
     # y-scale marks
     for i in range(graph_y_scale_no_of_marks + 1):
         draw.text(
@@ -194,7 +211,13 @@ def graph(device, draw):
                 - graph_scale_font_size / 2
                 + i * graph_height / graph_y_scale_no_of_marks,
             ),
-            str(round(graph_y_max - (graph_y_max - graph_y_min) / graph_y_scale_no_of_marks * i, 1)),
+            str(
+                round(
+                    graph_y_max
+                    - (graph_y_max - graph_y_min) / graph_y_scale_no_of_marks * i,
+                    1,
+                )
+            ),
             font=graph_scale_font,
             fill=text_colour,
         )
