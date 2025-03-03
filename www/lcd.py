@@ -16,7 +16,6 @@ from PIL import ImageFont
 from readConfig import screen_type
 
 if screen_type == "ili9341":
-    print(screen_type)
     from readConfig import (
         ili9341_port as port,
         ili9341_device as device,
@@ -54,16 +53,21 @@ graph_y_offset = 10
 hours_back = 2
 hours_future = 12
 
-graph_y_min = -0.1
+#graph_y_min = -0.1
 
-sql = f"SELECT MAX(SEK_per_kWh) FROM price WHERE hour > NOW() - INTERVAL {hours_back} HOUR AND hour < NOW() + INTERVAL {hours_future + 1} HOUR"
+sql = f"SELECT MAX(SEK_per_kWh), MIN(SEK_per_kWh) FROM price WHERE hour > NOW() - INTERVAL {hours_back} HOUR AND hour < NOW() + INTERVAL {hours_future + 1} HOUR"
 answer = do_sql(sql)
-# print(answer[0][0])
 y_max = round(math.ceil(answer[0][0] * 2)) / 2
-# test = 1.1
-# y_max = round(math.ceil(test * 2)) / 2
-# print(y_max)
 graph_y_max = y_max
+y_min = round(math.floor(answer[0][1] * 2)) / 2
+graph_y_min = y_min
+
+if graph_y_min >= 0.5:
+    graph_y_min = 0
+
+print("Highest: \t%s, \tY-max: \t%s" % (answer[0][0], y_max))
+print("Lowest: \t%s, \tY-min: \t%s" % (answer[0][1], y_min))
+print()
 
 graph_frame_colour = "white"
 text_colour = "white"
@@ -75,14 +79,20 @@ graph_line_colour_now = "red"
 
 graph_x_resolution = graph_width / (hours_back + hours_future)
 
-graph_font_path = str(
+graph_scale_font_path = str(
     Path(__file__).resolve().parent.joinpath("fonts", "DejaVuSansMono.ttf")
 )
-graph_font_size = 15
-graph_font = ImageFont.truetype(graph_font_path, graph_font_size)
+graph_scale_font_size = 15
+graph_scale_font = ImageFont.truetype(graph_scale_font_path, graph_scale_font_size)
+
+price_font_path = graph_scale_font_path
+price_font_size = 10
+price_font = ImageFont.truetype(price_font_path, price_font_size)
 
 graph_y_scale_x_offset = 5
-graph_y_scale_no_of_marks = math.ceil(graph_y_max * 2)
+graph_y_scale_no_of_marks = math.ceil((graph_y_max - graph_y_min) * 2)
+print("Y-scale no of marks: %s" % (graph_y_scale_no_of_marks + 1))
+print()
 
 
 def scale_y(y):
@@ -94,6 +104,72 @@ def scale_y(y):
 def scale_x(x):
     # return interp(x, [0, graph_x_resolution - 1], [graph_offset + 1, graph_offset + graph_width - 2])
     return graph_x_offset + x * graph_width / (hours_back + hours_future + 1)
+
+
+def draw_horizontal(draw, i, line):
+    draw.line(
+        (
+            scale_x(i),
+            scale_y(float(line[0])),
+            scale_x(i + 1),
+            scale_y(float(line[0])),
+        ),
+        fill=graph_line_colour,
+    )
+
+    print(
+        "- ",
+        round(scale_x(i)),
+        ", ",
+        round(scale_y(float(line[0]))),
+        "\t-->\t",
+        round(scale_x(i + 1)),
+        ", ",
+        round(scale_y(float(line[0]))),
+        "\t-",
+        line[0],
+        "kr\t",
+        line[1],
+    )
+
+    show_price(draw, i, line)
+
+
+def draw_vertical(draw, i, old_line, line):
+    draw.line(
+        (
+            scale_x(i),
+            scale_y(float(old_line)),
+            scale_x(i),
+            scale_y(float(line[0])),
+        ),
+        fill=graph_line_colour,
+    )
+
+    print(
+        "| ",
+        round(scale_x(i)),
+        ", ",
+        round(scale_y(float(old_line))),
+        "\t-->\t",
+        round(scale_x(i)),
+        ", ",
+        round(scale_y(float(line[0]))),
+        "\t|",
+    )
+
+
+def show_price(draw, i, line):
+    draw.text(
+        (
+            scale_x(i) + 5,  # + (scale_x(i + 1) - scale_x(i)) / 2,
+            scale_y(float(line[0])) - price_font_size * 1.5,
+        ),
+        str(round(line[0] * 100)),
+        # str(scale_y(float(line[0] - 10))),
+        font=price_font,
+        fill=text_colour,
+    )
 
 
 def graph(device, draw):
@@ -108,22 +184,22 @@ def graph(device, draw):
         # , fill=graph_background_colour)
         outline=graph_frame_colour,
     )
+    
     # y-scale marks
     for i in range(graph_y_scale_no_of_marks + 1):
         draw.text(
             (
                 graph_y_scale_x_offset,
                 graph_y_offset
-                - graph_font_size / 2
+                - graph_scale_font_size / 2
                 + i * graph_height / graph_y_scale_no_of_marks,
             ),
-            str(round(graph_y_max - graph_y_max / graph_y_scale_no_of_marks * i, 1)),
-            font=graph_font,
+            str(round(graph_y_max - (graph_y_max - graph_y_min) / graph_y_scale_no_of_marks * i, 1)),
+            font=graph_scale_font,
             fill=text_colour,
         )
 
     sql = f"SELECT SEK_per_kWh, hour FROM price WHERE hour > NOW() - INTERVAL {hours_back} HOUR AND hour < NOW() + INTERVAL {hours_future + 1} HOUR"
-    print(sql)
 
     answer = do_sql(sql)
 
@@ -133,129 +209,21 @@ def graph(device, draw):
     for line in answer:
         if i == 0:
             # Horizontal
-            draw.line(
-                (
-                    scale_x(i),
-                    scale_y(float(line[0])),
-                    scale_x(i + 1),
-                    scale_y(float(line[0])),
-                ),
-                fill=graph_line_colour,
-            )
-
-            print(
-                "- ",
-                round(scale_x(i)),
-                ", ",
-                round(scale_y(float(line[0]))),
-                "\t-->\t",
-                round(scale_x(i + 1)),
-                ", ",
-                round(scale_y(float(line[0]))),
-                "\t-",
-                line[0],
-                "kr\t",
-                line[1],
-            )
+            draw_horizontal(draw, i, line)
 
         elif i == hours_back - 1:
             # Vertical
-            draw.line(
-                (
-                    scale_x(i),
-                    scale_y(float(old_line)),
-                    scale_x(i),
-                    scale_y(float(line[0])),
-                ),
-                fill=graph_line_colour,
-            )
-
-            print(
-                "| ",
-                round(scale_x(i)),
-                ", ",
-                round(scale_y(float(old_line))),
-                "\t-->\t",
-                round(scale_x(i)),
-                ", ",
-                round(scale_y(float(line[0]))),
-                "\t|",
-            )
+            draw_vertical(draw, i, old_line, line)
 
             # Horizontal
-            draw.line(
-                (
-                    scale_x(i),
-                    scale_y(float(line[0])),
-                    scale_x(i + 1),
-                    scale_y(float(line[0])),
-                ),
-                fill=graph_line_colour_now,
-            )
+            draw_horizontal(draw, i, line)
 
-            print(
-                "- ",
-                round(scale_x(i)),
-                ", ",
-                round(scale_y(float(line[0]))),
-                "\t-->\t",
-                round(scale_x(i + 1)),
-                ", ",
-                round(scale_y(float(line[0]))),
-                "\t-",
-                line[0],
-                "kr\t",
-                line[1],
-            )
         else:
             # Vertical
-            draw.line(
-                (
-                    scale_x(i),
-                    scale_y(float(old_line)),
-                    scale_x(i),
-                    scale_y(float(line[0])),
-                ),
-                fill=graph_line_colour,
-            )
-
-            print(
-                "| ",
-                round(scale_x(i)),
-                ", ",
-                round(scale_y(float(old_line))),
-                "\t-->\t",
-                round(scale_x(i)),
-                ", ",
-                round(scale_y(float(line[0]))),
-                "\t|",
-            )
+            draw_vertical(draw, i, old_line, line)
 
             # Horizontal
-            draw.line(
-                (
-                    scale_x(i),
-                    scale_y(float(line[0])),
-                    scale_x(i + 1),
-                    scale_y(float(line[0])),
-                ),
-                fill=graph_line_colour,
-            )
-
-            print(
-                "- ",
-                round(scale_x(i)),
-                ", ",
-                round(scale_y(float(line[0]))),
-                "\t-->\t",
-                round(scale_x(i + 1)),
-                ", ",
-                round(scale_y(float(line[0]))),
-                "\t-",
-                line[0],
-                "kr\t",
-                line[1],
-            )
+            draw_horizontal(draw, i, line)
 
         old_line = line[0]
 
@@ -267,8 +235,8 @@ def main():
     with canvas(device) as draw:
         graph(device, draw)
 
-    # while True:
-    #    time.sleep(1)
+    time.sleep(5)
+    sys.exit()
 
     for i in range(30):
         print(30 - i)
