@@ -6,5 +6,4 @@ fp-info-cache
 *.kicad_prl
 ~*
 www/luma.examples
-www/lcd.py.old
-www/lcd.py.old2
+www/lcd.py.old*

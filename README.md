@@ -88,7 +88,7 @@ $ sudo apt install libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-d
 
 >$ sudo usermod -a -G i2c,spi,gpio www-data  
 
-#### ST7735 OLED Screensudo apt-get install -y libavformat-dev libavcodec-dev libavdevice-dev libavutil-dev libswscale-dev libavresample-dev libavfilter-dev
+#### ST7735 OLED Screen
 
 | Screen | Pin | GPIO   |
 | ------ | --- | ------ |

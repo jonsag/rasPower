@@ -808,40 +808,33 @@
 				)
 			)
 		)
-		(symbol "My_Parts:ST7735_1.8{dblquote}_TFT_128x160_w_SD-card"
+		(symbol "My_Symbols:ILI9341_2.8_TFT_Touch"
 			(pin_names
-				(offset 1.016)
+				(offset 0.762)
 			)
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
 			(property "Reference" "U"
-				(at 6.35 3.175 0)
+				(at -17.526 13.97 0)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(justify left)
 				)
 			)
-			(property "Value" "ST7735_1.8{dblquote}_TFT_128x160_w_SD-card"
-				(at 24.13 -20.955 0)
+			(property "Value" "ILI9341_2.8_TFT_Touch"
+				(at 1.905 13.97 0)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(justify left)
 				)
 			)
-			(property "Footprint" ""
-				(at 6.35 3.175 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Datasheet" ""
-				(at 6.35 3.175 0)
+			(property "Footprint" "My_Parts:ILI9341 2.8 TFT Touch large"
+				(at 0 -17.78 0)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -849,7 +842,25 @@
 					(hide yes)
 				)
 			)
-			(property "Description" ""
+			(property "Datasheet" "http://www.lcdwiki.com/res/MSP2807/QD-TFT2803%20specification_v1.1.pdf"
+				(at 4.572 -22.098 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "ILI9341 controller, SPI TFT LCD Display, 2.8inch SPI Module ILI9341 SKU:MSP2807"
+				(at 8.636 -27.94 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "driver display SKU:MSP2807 2.8\" SPI TFT Module Driver:ILI9341 Bus:SPI Dots:240x320 Touch:Yes"
 				(at 0 0 0)
 				(effects
 					(font
@@ -858,23 +869,73 @@
 					(hide yes)
 				)
 			)
-			(symbol "ST7735_1.8{dblquote}_TFT_128x160_w_SD-card_0_1"
+			(property "ki_fp_filters" "*CR2013*MI2120*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "ILI9341_2.8_TFT_Touch_0_0"
+				(text "320x240 LCD"
+					(at 0.889 2.032 0)
+					(effects
+						(font
+							(size 1.27 1.27)
+							(italic yes)
+						)
+					)
+				)
+				(text "ILI9341"
+					(at -5.461 4.572 0)
+					(effects
+						(font
+							(size 1.27 1.27)
+							(italic yes)
+						)
+						(justify left)
+					)
+				)
+				(text "SD Card Slot"
+					(at -5.461 -3.048 0)
+					(effects
+						(font
+							(size 1.27 1.27)
+							(italic yes)
+						)
+						(justify left)
+					)
+				)
+				(text "SPI Interface"
+					(at -5.461 -0.508 0)
+					(effects
+						(font
+							(size 1.27 1.27)
+							(italic yes)
+						)
+						(justify left)
+					)
+				)
+			)
+			(symbol "ILI9341_2.8_TFT_Touch_0_1"
 				(rectangle
-					(start 4.445 1.27)
-					(end 42.545 -19.05)
+					(start -17.78 12.7)
+					(end 17.78 -12.7)
 					(stroke
-						(width 0)
+						(width 0.254)
 						(type default)
 					)
 					(fill
-						(type none)
+						(type background)
 					)
 				)
 				(rectangle
-					(start 12.065 0)
-					(end 36.195 -17.78)
+					(start -6.35 6.35)
+					(end 8.255 -5.08)
 					(stroke
-						(width 0)
+						(width 0.254)
 						(type default)
 					)
 					(fill
@@ -882,10 +943,10 @@
 					)
 				)
 			)
-			(symbol "ST7735_1.8{dblquote}_TFT_128x160_w_SD-card_1_1"
+			(symbol "ILI9341_2.8_TFT_Touch_1_1"
 				(pin power_in line
-					(at 0 0 0)
-					(length 5.08)
+					(at 0 15.24 270)
+					(length 2.54)
 					(name "VCC"
 						(effects
 							(font
@@ -901,10 +962,10 @@
 						)
 					)
 				)
-				(pin bidirectional line
-					(at 46.99 -7.62 180)
-					(length 5.08)
-					(name "SD_MOSI"
+				(pin output line
+					(at -20.32 10.16 0)
+					(length 2.54)
+					(name "T_CLK"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -919,10 +980,10 @@
 						)
 					)
 				)
-				(pin bidirectional line
-					(at 46.99 -10.16 180)
-					(length 5.08)
-					(name "SD_MISO"
+				(pin input line
+					(at -20.32 7.62 0)
+					(length 2.54)
+					(name "T_CS"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -937,10 +998,10 @@
 						)
 					)
 				)
-				(pin bidirectional line
-					(at 46.99 -12.7 180)
-					(length 5.08)
-					(name "SD_SCK"
+				(pin input line
+					(at -20.32 5.08 0)
+					(length 2.54)
+					(name "T_DIN"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -955,9 +1016,117 @@
 						)
 					)
 				)
+				(pin output line
+					(at -20.32 2.54 0)
+					(length 2.54)
+					(name "T_DO"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "13"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at -20.32 0 0)
+					(length 2.54)
+					(name "T_IRQ"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "14"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at -20.32 -2.54 0)
+					(length 2.54)
+					(name "SD_CS"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "15"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at -20.32 -5.08 0)
+					(length 2.54)
+					(name "SD_MOSI"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "16"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at -20.32 -7.62 0)
+					(length 2.54)
+					(name "SD_MISO"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "17"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at -20.32 -10.16 0)
+					(length 2.54)
+					(name "SD_SCK"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "18"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
 				(pin power_in line
-					(at 0 -2.54 0)
-					(length 5.08)
+					(at 0 -15.24 90)
+					(length 2.54)
 					(name "GND"
 						(effects
 							(font
@@ -974,9 +1143,9 @@
 					)
 				)
 				(pin input line
-					(at 0 -5.08 0)
-					(length 5.08)
-					(name "CS"
+					(at 20.32 5.08 180)
+					(length 2.54)
+					(name "~{CS}"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -992,8 +1161,8 @@
 					)
 				)
 				(pin input line
-					(at 0 -7.62 0)
-					(length 5.08)
+					(at 20.32 -7.62 180)
+					(length 2.54)
 					(name "RESET"
 						(effects
 							(font
@@ -1010,9 +1179,9 @@
 					)
 				)
 				(pin input line
-					(at 0 -10.16 0)
-					(length 5.08)
-					(name "A0"
+					(at 20.32 7.62 180)
+					(length 2.54)
+					(name "D/~{C}"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -1028,9 +1197,9 @@
 					)
 				)
 				(pin input line
-					(at 0 -12.7 0)
-					(length 5.08)
-					(name "SDA"
+					(at 20.32 2.54 180)
+					(length 2.54)
+					(name "MOSI"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -1046,8 +1215,8 @@
 					)
 				)
 				(pin input line
-					(at 0 -15.24 0)
-					(length 5.08)
+					(at 20.32 -2.54 180)
+					(length 2.54)
 					(name "SCK"
 						(effects
 							(font
@@ -1064,8 +1233,8 @@
 					)
 				)
 				(pin input line
-					(at 0 -17.78 0)
-					(length 5.08)
+					(at 20.32 -5.08 180)
+					(length 2.54)
 					(name "LED"
 						(effects
 							(font
@@ -1081,10 +1250,10 @@
 						)
 					)
 				)
-				(pin bidirectional line
-					(at 46.99 -5.08 180)
-					(length 5.08)
-					(name "SD_CS"
+				(pin output line
+					(at 20.32 0 180)
+					(length 2.54)
+					(name "MISO"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -1200,183 +1369,153 @@
 	)
 	(wire
 		(pts
-			(xy 166.37 102.87) (xy 166.37 157.48)
+			(xy 172.72 110.49) (xy 172.72 154.94)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "0634d577-ff86-4416-b29c-62619d7b178e")
+		(uuid "0ea57fa9-2785-4c5d-afea-87dc24dca6b8")
 	)
 	(wire
 		(pts
-			(xy 63.5 157.48) (xy 63.5 85.09)
+			(xy 162.56 97.79) (xy 162.56 144.78)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "067ffb21-8a10-49a7-8efd-0280f2bdfc58")
+		(uuid "14cc423f-4e42-4b13-a992-e39538112aad")
 	)
 	(wire
 		(pts
-			(xy 148.59 152.4) (xy 68.58 152.4)
+			(xy 198.12 120.65) (xy 198.12 125.73)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "09069abc-ec0a-42d3-ab34-8c736ca5e497")
+		(uuid "22d3d435-ceab-4a75-9372-2bcd16c4f4cd")
 	)
 	(wire
 		(pts
-			(xy 124.46 107.95) (xy 156.21 107.95)
+			(xy 177.8 110.49) (xy 172.72 110.49)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "1dfc449f-9f20-4bd0-bdc9-78960f113585")
+		(uuid "244f256e-3ecf-4c0e-87e9-63018729702f")
 	)
 	(wire
 		(pts
-			(xy 161.29 52.07) (xy 109.22 52.07)
+			(xy 73.66 149.86) (xy 73.66 105.41)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "317d8f28-def8-460d-9647-f7168bbe7ca7")
+		(uuid "4735688e-0f83-4145-ae8a-1b9987264c08")
 	)
 	(wire
 		(pts
-			(xy 171.45 102.87) (xy 166.37 102.87)
+			(xy 177.8 97.79) (xy 162.56 97.79)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "40d1eaf9-8614-4b6a-973c-62dc97beeec3")
+		(uuid "49e1b464-b328-4729-940f-3ca01afb775d")
 	)
 	(wire
 		(pts
-			(xy 68.58 105.41) (xy 83.82 105.41)
+			(xy 157.48 105.41) (xy 157.48 102.87)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "441f32ea-c2aa-47ee-a0fb-e688035cb7ef")
+		(uuid "527bf98c-3354-4ea7-8dff-aca0466eb5f0")
 	)
 	(wire
 		(pts
-			(xy 171.45 97.79) (xy 153.67 97.79)
+			(xy 124.46 107.95) (xy 177.8 107.95)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "55521190-0509-4b2c-bdbc-af96a1c90a44")
+		(uuid "603c88c6-d34e-4d6c-b96f-f3c712277c32")
 	)
 	(wire
 		(pts
-			(xy 83.82 107.95) (xy 66.04 107.95)
+			(xy 68.58 154.94) (xy 68.58 85.09)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "5a284097-1299-42ca-a5d4-435855b88661")
+		(uuid "6e127141-653b-44aa-931f-61cb3317b144")
 	)
 	(wire
 		(pts
-			(xy 146.05 90.17) (xy 146.05 100.33)
+			(xy 172.72 154.94) (xy 68.58 154.94)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "5a8eca71-82d1-42b3-8f15-401a6a3a3408")
+		(uuid "6e1488b3-54a0-4fb7-93a3-c2ba510229ac")
 	)
 	(wire
 		(pts
-			(xy 171.45 85.09) (xy 161.29 85.09)
+			(xy 78.74 107.95) (xy 83.82 107.95)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "62cee964-a557-45ca-a7fc-c2bcb7a18c51")
+		(uuid "7c18b5c8-498d-4fc4-a97a-5e32ca2cc563")
 	)
 	(wire
 		(pts
-			(xy 171.45 95.25) (xy 151.13 95.25)
+			(xy 124.46 105.41) (xy 157.48 105.41)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "6a593ea0-85f1-4b13-9cf6-d0ba70d21057")
+		(uuid "8346bfee-9ef8-4600-87bb-e191bcffb991")
 	)
 	(wire
 		(pts
-			(xy 109.22 62.23) (xy 109.22 52.07)
+			(xy 162.56 144.78) (xy 78.74 144.78)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "7d545dfe-a5fc-42b6-86c9-0c7d55198cf7")
+		(uuid "842c2351-9656-4b7c-85d8-7609ee730a34")
 	)
 	(wire
 		(pts
-			(xy 156.21 100.33) (xy 156.21 107.95)
+			(xy 124.46 100.33) (xy 177.8 100.33)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "8085baec-0a99-4688-a051-98a7fbd607ba")
+		(uuid "86789de7-9940-49a8-9d42-37021ba11366")
 	)
 	(wire
 		(pts
-			(xy 171.45 100.33) (xy 156.21 100.33)
+			(xy 78.74 144.78) (xy 78.74 107.95)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "8bb1444f-6e6c-4e07-9961-c058abed1459")
-	)
-	(wire
-		(pts
-			(xy 161.29 85.09) (xy 161.29 52.07)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "954c1743-7f6c-42b2-a296-370d3dfbcb41")
-	)
-	(wire
-		(pts
-			(xy 124.46 100.33) (xy 146.05 100.33)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "980c92de-8e4c-4e60-b779-3458ffd2c033")
-	)
-	(wire
-		(pts
-			(xy 166.37 157.48) (xy 63.5 157.48)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "9d94e4e9-4bf2-44fc-9e42-a91e3dc6cf79")
+		(uuid "88b46817-31b2-4cbc-9f26-b9990288bea5")
 	)
 	(wire
 		(pts
@@ -1390,153 +1529,93 @@
 	)
 	(wire
 		(pts
-			(xy 171.45 90.17) (xy 146.05 90.17)
+			(xy 157.48 102.87) (xy 177.8 102.87)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "aee2a552-54fd-40f6-a80a-a98d48a56dbd")
+		(uuid "aa989a8a-07cb-4d10-92a3-07bf6c23a3c6")
 	)
 	(wire
 		(pts
-			(xy 68.58 152.4) (xy 68.58 105.41)
+			(xy 68.58 85.09) (xy 83.82 85.09)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "bd8ad178-b7a4-4ae8-b10c-ac778b701df4")
+		(uuid "b1cfc894-e7d6-4d97-93f0-d916c9136d1b")
 	)
 	(wire
 		(pts
-			(xy 171.45 92.71) (xy 148.59 92.71)
+			(xy 177.8 113.03) (xy 167.64 113.03)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "bf524ced-fcdd-4ab6-9d84-0d0c04c68158")
+		(uuid "b33feb2f-cf5c-4ffc-82bc-53630895b58e")
 	)
 	(wire
 		(pts
-			(xy 161.29 87.63) (xy 161.29 118.11)
+			(xy 167.64 149.86) (xy 73.66 149.86)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "c1447d7f-d583-4cf6-b57b-62be641e884c")
+		(uuid "c39986e8-1097-4768-ab18-650d0975b50e")
 	)
 	(wire
 		(pts
-			(xy 153.67 97.79) (xy 153.67 105.41)
+			(xy 198.12 90.17) (xy 198.12 57.15)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "c82f12ff-4973-43a7-9e2e-7634168f7c22")
+		(uuid "c6cf0a24-4d9d-4757-aebb-75f13ae08680")
 	)
 	(wire
 		(pts
-			(xy 124.46 105.41) (xy 153.67 105.41)
+			(xy 73.66 105.41) (xy 83.82 105.41)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "d2290b2a-8506-468e-9161-34fa6d6d033b")
+		(uuid "d9301797-9e37-44fa-abaf-69dd0eb7798f")
 	)
 	(wire
 		(pts
-			(xy 151.13 154.94) (xy 66.04 154.94)
+			(xy 109.22 57.15) (xy 109.22 62.23)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "dd608289-ef4b-456f-959e-5cc5dc3b2f99")
+		(uuid "eafedd5d-d639-4021-bf2b-3bcb0e24057b")
 	)
 	(wire
 		(pts
-			(xy 171.45 87.63) (xy 161.29 87.63)
+			(xy 198.12 57.15) (xy 109.22 57.15)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "dfef7093-9e56-401e-b8e4-bd515cea8bef")
+		(uuid "ebb6610f-b53c-4ba1-9b46-f601cb3f0ad5")
 	)
 	(wire
 		(pts
-			(xy 63.5 85.09) (xy 83.82 85.09)
+			(xy 167.64 113.03) (xy 167.64 149.86)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "e8070a44-f11c-4d04-b4e7-697e4d6ec8d3")
-	)
-	(wire
-		(pts
-			(xy 66.04 107.95) (xy 66.04 154.94)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "f45e3e6f-70b7-430e-a6e8-6d4febba9345")
-	)
-	(wire
-		(pts
-			(xy 148.59 92.71) (xy 148.59 152.4)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "f46215e9-25af-4268-9f0f-b970f09e1ee1")
-	)
-	(wire
-		(pts
-			(xy 151.13 95.25) (xy 151.13 154.94)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "ffcc06f7-6912-4f68-ab0b-1bc7728f3d1b")
-	)
-	(label "RESET"
-		(at 76.2 105.41 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "48e02e58-d198-49c2-add2-34e5a206a429")
-	)
-	(label "DC"
-		(at 76.2 107.95 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "51b4133b-8c53-4063-9caf-a91227e7db37")
-	)
-	(label "CS"
-		(at 130.81 100.33 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "c41c854c-d82f-478e-8e8f-48ee82a1876b")
+		(uuid "eee15f29-9e42-43e0-b7a2-7c41174593df")
 	)
 	(symbol
 		(lib_id "Connector:Raspberry_Pi_2_3")
@@ -1723,115 +1802,17 @@
 		)
 	)
 	(symbol
-		(lib_id "My_Parts:ST7735_1.8{dblquote}_TFT_128x160_w_SD-card")
-		(at 171.45 85.09 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "84ebea68-2ead-41be-a5ce-4cbeccfb2de3")
-		(property "Reference" "U2"
-			(at 194.945 78.74 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "ST7735_1.8\"_TFT_128x160_w_SD-card"
-			(at 194.945 81.28 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 177.8 81.915 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 177.8 81.915 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 171.45 85.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "7"
-			(uuid "1d0a98d3-9e5e-43de-8614-685a3dc6d6ec")
-		)
-		(pin "8"
-			(uuid "625d637e-4d06-41cc-9b42-d84a08b4fb7e")
-		)
-		(pin "6"
-			(uuid "ea556d8b-a5b8-43bd-9fc4-e87d7fc64629")
-		)
-		(pin "1"
-			(uuid "e8ad4a6c-fe5b-482f-b724-d2ee5338c1b0")
-		)
-		(pin "3"
-			(uuid "ef051bc6-6972-43ff-99c8-8e4256b917bb")
-		)
-		(pin "9"
-			(uuid "11f1d4fe-f8b6-42b1-b158-2674964eb356")
-		)
-		(pin "12"
-			(uuid "e194665b-e5d1-4cfd-9468-cabda9d3221b")
-		)
-		(pin "5"
-			(uuid "cce95871-3529-45dd-83e3-76d874259a5a")
-		)
-		(pin "11"
-			(uuid "578c3f63-be7c-4ccd-94bd-79c2b0358972")
-		)
-		(pin "10"
-			(uuid "6de9f3cc-44d7-4513-bc11-68033c006904")
-		)
-		(pin "4"
-			(uuid "63a6e616-c772-4190-b612-769136c5441a")
-		)
-		(pin "2"
-			(uuid "5c61a410-0dea-4b9c-a436-4d9d8dba588c")
-		)
-		(instances
-			(project ""
-				(path "/c1325ea1-80f0-4fa6-b56f-7423e92ea641"
-					(reference "U2")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "power:GND")
-		(at 161.29 118.11 0)
+		(at 198.12 125.73 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced yes)
-		(uuid "d5d3c171-3bd8-4266-9319-e3f125c087c2")
-		(property "Reference" "#PWR02"
-			(at 161.29 124.46 0)
+		(uuid "a24d87ae-128d-4d52-a65a-a8a1cddce1a7")
+		(property "Reference" "#PWR2"
+			(at 198.12 132.08 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1840,7 +1821,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 161.29 123.19 0)
+			(at 198.12 130.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1848,7 +1829,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 161.29 118.11 0)
+			(at 198.12 125.73 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1857,7 +1838,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 161.29 118.11 0)
+			(at 198.12 125.73 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1866,7 +1847,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 161.29 118.11 0)
+			(at 198.12 125.73 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1875,12 +1856,131 @@
 			)
 		)
 		(pin "1"
-			(uuid "8359f2bd-cc0b-4e0c-b55e-1ebb1fa6b221")
+			(uuid "a9ad2874-c6c1-4334-8c78-3c53ef2d10c5")
 		)
 		(instances
 			(project ""
 				(path "/c1325ea1-80f0-4fa6-b56f-7423e92ea641"
-					(reference "#PWR02")
+					(reference "#PWR2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "My_Symbols:ILI9341_2.8_TFT_Touch")
+		(at 198.12 105.41 0)
+		(mirror y)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "d3167896-f9b8-4f14-8542-0ffea9de71c8")
+		(property "Reference" "U1"
+			(at 201.1365 87.63 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "ILI9341_2.8_TFT_Touch"
+			(at 201.1365 90.17 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "My_Parts:ILI9341 2.8 TFT Touch large"
+			(at 198.12 123.19 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "http://www.lcdwiki.com/res/MSP2807/QD-TFT2803%20specification_v1.1.pdf"
+			(at 193.548 127.508 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "ILI9341 controller, SPI TFT LCD Display, 2.8inch SPI Module ILI9341 SKU:MSP2807"
+			(at 189.484 133.35 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "ad1556ae-bb82-4128-b079-8477f976dfa0")
+		)
+		(pin "5"
+			(uuid "d0686f15-ca58-4e5d-8cc2-5bf2e4caaa97")
+		)
+		(pin "4"
+			(uuid "f46a822c-4176-4669-9ea9-e0235c1daf0e")
+		)
+		(pin "3"
+			(uuid "dfd9c7ba-7acb-425a-8e28-b574ae138eec")
+		)
+		(pin "16"
+			(uuid "f8d693dc-5b65-4812-9036-b088e75c51ee")
+		)
+		(pin "12"
+			(uuid "ea29a12e-08f2-4db6-82d9-3f6882ab4570")
+		)
+		(pin "9"
+			(uuid "ab756a2d-e73c-46a7-8441-114d36f71c52")
+		)
+		(pin "15"
+			(uuid "625b2ae4-e015-4b60-ad3b-9da5bfd67d28")
+		)
+		(pin "1"
+			(uuid "9b43811e-b02a-4342-82d7-9c19ee41ce88")
+		)
+		(pin "8"
+			(uuid "2affc9ec-9476-41ae-910b-bbb64960fdbf")
+		)
+		(pin "17"
+			(uuid "62252682-1edb-47c3-956c-822ab2634c64")
+		)
+		(pin "10"
+			(uuid "3ecb296e-8092-479b-8a0a-f800d4313748")
+		)
+		(pin "11"
+			(uuid "d38fdff9-b495-4393-8d00-733df7fcbf5d")
+		)
+		(pin "13"
+			(uuid "baf7bb2f-f9b2-47c7-9cf8-043f1bfe9e5f")
+		)
+		(pin "7"
+			(uuid "07f5514a-9ea9-4c3f-ae2b-b7e99dcdcf4c")
+		)
+		(pin "6"
+			(uuid "5ff0070b-9cc9-4a69-bc8b-5b6048d3b9f5")
+		)
+		(pin "14"
+			(uuid "a01b6c7d-6350-40bc-bf76-dfe33b6c066f")
+		)
+		(pin "18"
+			(uuid "7cc0c7f7-9ccb-4faf-a5fa-526ee931930c")
+		)
+		(instances
+			(project ""
+				(path "/c1325ea1-80f0-4fa6-b56f-7423e92ea641"
+					(reference "U1")
 					(unit 1)
 				)
 			)
